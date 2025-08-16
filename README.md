@@ -12,4 +12,6 @@ Thiết kế lõi IP mã hóa AES với Caravel Platform
 * [Step 8 - Future devs](08_future_devs.md)
 * [Step 9 - References](09_references.md)
 
+---
+
 ![0_aes](images/0_aes.png)
