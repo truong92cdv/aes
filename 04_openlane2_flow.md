@@ -307,3 +307,8 @@ Mở KLayout xem kết quả
 Kiểm tra file **~/aes/openlane/user_project_wrapper/runs/RUN_xx/xx-openroad-stapostpnr/summary.rpt**.
 
 
+Luu ket qua
+
+```sh
+[nix-shell:~]$ bash ~/aes/openlane/copy_views.sh ~/aes user_project_wrapper RUN_TAG
+```
