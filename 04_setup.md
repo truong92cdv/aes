@@ -69,4 +69,24 @@ Mở KLayout xem kết quả
 
 ![4_klayout_1](images/4_klayout_1.png)
 
+De nhin ro layout nhu tren hinh, ban can tat cac layer ***areaid.lowTapDensity*** va ***areaid.standardc*** (double-click vao layer tuong ung trong KLayout).
+
 ## 6. Kiểm tra kết quả timing
+
+Khi flow hoan tat. Ban se thay 1 folder co dang **~/aes/openlane/aes_wb_wrapper/runs/RUN_2025-08-16_23-37-31**. Ten folder **RUN_??** thay doi theo moi lan chay flow. Day la folder chua ket qua chay Openlane.
+
+### Check Antennas
+Kiem tra file **~/aes/openlane/aes_wb_wrapper/runs/RUN_2025-08-16_23-37-31/47-openroad-checkantennas-1/reports/antenna_summary.rpt**. Ban se thay rat nhieu loi antenna violations:
+
+┏━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━┳━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━┳━━━━━━━┓
+┃ Partial/Required ┃ Required ┃ Partial ┃ Net                                  ┃ Pin         ┃ Layer ┃
+┡━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━╇━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━╇━━━━━━━┩
+│ 8.43             │ 400.00   │ 3373.21 │ net337                               │ _19592_/A1  │ met3  │
+│ 4.06             │ 400.00   │ 1624.33 │ _06003_                              │ _20370_/A_N │ met1  │
+│ 3.84             │ 400.00   │ 1534.48 │ net40                                │ _19524_/A0  │ met3  │
+│ 3.68             │ 400.00   │ 1471.09 │ _09365_                              │ wire82/A    │ met3  │
+│ 3.51             │ 400.00   │ 1402.54 │ aes.core.dec_block.block_w0_reg[12\] │ _35456_/A0  │ met3  │
+│ 3.33             │ 400.00   │ 1330.55 │ _13932_                              │ _34198_/A   │ met3  │
+│ 3.33             │ 400.00   │ 1330.55 │ _13932_                              │ _34199_/A1  │ met3  │
+⋮
+
