@@ -6,7 +6,7 @@ Xem hướng dẫn tại đây [Install Nix & Openlane2](https://openlane2.readt
 
 ## 2. Tạo project từ Caravel template
 
-Tạo 1 repo github từ template của Caravel, tích hợp sẵn bộ công cụ Openlane2 tại [Caravel project](https://github.com/efabless/caravel_user_project_ol2/generate).
+Tạo 1 repo github từ template của Caravel tại [Caravel project](https://github.com/efabless/caravel_user_project_ol2/generate).
 
 Mở terminal, clone repo mới tạo về, ví dụ:
 ```sh
