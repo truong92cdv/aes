@@ -14,4 +14,5 @@ Thiết kế lõi IP mã hóa AES với Caravel Platform
 
 ---
 
-![0_aes](images/0_aes.png)
+## Author:
+* Vo Nhat Truong
