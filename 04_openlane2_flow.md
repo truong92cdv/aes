@@ -24,7 +24,7 @@ chmod +x ~/download.sh
 
 Folder **rtl** gồm các file sau:
 
-![4_rtl_folder](images/4_rtl_folder.png)
+![4_rtl](images/4_rtl.png)
 
 ## 4. Tạo macro AES Wishbone Wrapper với Openlane
 
