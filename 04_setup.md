@@ -1,27 +1,33 @@
 # Step 4 - Setup
 
-### 0. Cai dat **Nix** va **Openlane2**
+## 1. Cài đặt **Nix** và **Openlane2**
 
-### 1. Tạo 1 repo github từ template của Caravel, tích hợp sẵn bộ công cụ Openlane2 tại [Caravel project](https://github.com/efabless/caravel_user_project_ol2/generate).
+## 2. Tạo project từ Caravel template
 
-### 2. Mở terminal, clone repo mới tạo về, ví dụ:
+Tạo 1 repo github từ template của Caravel, tích hợp sẵn bộ công cụ Openlane2 tại [Caravel project](https://github.com/efabless/caravel_user_project_ol2/generate).
+
+Mở terminal, clone repo mới tạo về, ví dụ:
 ```sh
 git clone https://github.com/truong92cdv/caravel_aes_accelerator.git ~/aes
 ```
 
-### 3. File RTL thiết kế sẽ được đặt trong thư mục **~/aes/verilog/rtl/**. File **user_project_wrapper.v** là wrapper chứa thiết kế của chúng ta. Bạn cần sửa lại đoạn code *user project is instantiated  here*. Đồng thời copy các file thiết kế của **aes** về cùng thư mục. Bạn có thể copy thủ công hoặc dùng scipt download tôi đã tạo sẵn:
+## 3. Chuẩn bị file RTL
+
+File RTL thiết kế sẽ được đặt trong thư mục **~/aes/verilog/rtl/**. File **user_project_wrapper.v** là wrapper chứa thiết kế của chúng ta. Bạn cần sửa lại đoạn code *user project is instantiated  here*. Đồng thời copy các file thiết kế của **aes** về cùng thư mục. Bạn có thể copy thủ công hoặc dùng script download tôi đã tạo sẵn:
 ```sh
 curl -s https://raw.githubusercontent.com/truong92cdv/aes/refs/heads/main/script/download.sh ~/download.sh
 chmod +x ~/download.sh
 ~/download.sh https://github.com/truong92cdv/aes/rtl ~/aes/verilog/rtl
 ```
 
-### 4. Tao macro AES Wishbone Wrapper voi Openlane
+## 4. Tạo macro AES Wishbone Wrapper với Openlane
+
+Tạo thư mục chứa AES wishbone wrapper
 ```sh
 mkdir -p ~/aes/openlane/aes_wb_wrapper
 ```
 
-### 5. Tao file **~/aes/openlane/aes_wb_wrapper/config.json** va cau hinh nhu sau:
+Tạo file **~/aes/openlane/aes_wb_wrapper/config.json** và cấu hình như sau:
 ```json
 {
     "DESIGN_NAME": "aes_wb_wrapper",
@@ -42,23 +48,25 @@ mkdir -p ~/aes/openlane/aes_wb_wrapper
 }
 ```
 
-### 6. Khoi chay Openlane2 trong moi truong nix-shell, thay doi duong dan theo vi tri cai dat openlane2 cua ban.
+## 5. Chạy Openlane2 flow cho Macro AES Wishbone Wrapper
+
+Khởi chạy Openlane2 trong môi trường nix-shell, thay đổi đường dẫn theo vị trí cài đặt openlane2 của bạn.
 ```sh
 nix-shell --pure ~/openlane2/shell.nix
 ```
 
-### 7. Chay flow thiet ke voi Openlane2 . Hay dam bao ban dang trong moi truong **nix-shell**
+Chạy flow thiết kế với Openlane2. Hãy đảm bảo bạn đang trong môi trường **nix-shell**
 ```sh
 [nix-shell:~]$ openlane ~/aes/openlane/aes_wb_wrapper/config.json
 ```
-Doi flow chay hoan tat, khoang 20 phut :(
+Đợi flow chạy hoàn tất, khoảng 20 phút :(
 
+Mở KLayout xem kết quả
 
-### 8. Mo KLayout xem ket qua
 ```sh
 [nix-shell:~]$ openlane --last-run --flow openinklayout ~/aes/openlane/aes_wb_wrapper/config.json
 ```
 
 ![4_klayout_1](images/4_klayout_1.png)
 
-### 9. Kểm tra kết qủa timing
+## 6. Kiểm tra kết quả timing
