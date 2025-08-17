@@ -1,6 +1,8 @@
-# Bước 4 - Thiết lập
+# Step 4 - Openlane2 Flow
 
 ## 1. Cài đặt **Nix** và **Openlane2**
+
+Xem hướng dẫn tại đây [Install Nix & Openlane2](https://openlane2.readthedocs.io/en/latest/getting_started/common/nix_installation/installation_linux.html).
 
 ## 2. Tạo project từ Caravel template
 
