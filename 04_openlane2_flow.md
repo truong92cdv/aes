@@ -22,6 +22,10 @@ chmod +x ~/download.sh
 ~/download.sh https://github.com/truong92cdv/aes/rtl ~/aes/verilog/rtl
 ```
 
+Folder **rtl** gồm các file sau:
+
+![4_rtl](images/4_rtl.png)
+
 ## 4. Tạo macro AES Wishbone Wrapper với Openlane
 
 Tạo thư mục chứa AES wishbone wrapper
