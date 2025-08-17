@@ -73,20 +73,92 @@ De nhin ro layout nhu tren hinh, ban can tat cac layer ***areaid.lowTapDensity**
 
 ## 6. Kiểm tra kết quả timing
 
-Khi flow hoan tat. Ban se thay 1 folder co dang **~/aes/openlane/aes_wb_wrapper/runs/RUN_2025-08-16_23-37-31**. Ten folder **RUN_??** thay doi theo moi lan chay flow. Day la folder chua ket qua chay Openlane.
+Khi flow hoan tat. Ban se thay 1 folder co dang **~/aes/openlane/aes_wb_wrapper/runs/RUN_2025-08-16_23-37-31**. Ten folder **RUN_xx** thay doi theo moi lan chay flow. Day la folder chua ket qua chay Openlane.
 
 ### Check Antennas
-Kiem tra file **~/aes/openlane/aes_wb_wrapper/runs/RUN_2025-08-16_23-37-31/47-openroad-checkantennas-1/reports/antenna_summary.rpt**. Ban se thay rat nhieu loi antenna violations:
+Kiem tra file **~/aes/openlane/aes_wb_wrapper/runs/RUN_xx/xx-openroad-checkantennas-1/reports/antenna_summary.rpt**. Ban se thay rat nhieu loi ***antenna violations***:
 
-┏━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━┳━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━┳━━━━━━━┓
-┃ Partial/Required ┃ Required ┃ Partial ┃ Net                                  ┃ Pin         ┃ Layer ┃
-┡━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━╇━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━╇━━━━━━━┩
-│ 8.43             │ 400.00   │ 3373.21 │ net337                               │ _19592_/A1  │ met3  │
-│ 4.06             │ 400.00   │ 1624.33 │ _06003_                              │ _20370_/A_N │ met1  │
-│ 3.84             │ 400.00   │ 1534.48 │ net40                                │ _19524_/A0  │ met3  │
-│ 3.68             │ 400.00   │ 1471.09 │ _09365_                              │ wire82/A    │ met3  │
-│ 3.51             │ 400.00   │ 1402.54 │ aes.core.dec_block.block_w0_reg[12\] │ _35456_/A0  │ met3  │
-│ 3.33             │ 400.00   │ 1330.55 │ _13932_                              │ _34198_/A   │ met3  │
-│ 3.33             │ 400.00   │ 1330.55 │ _13932_                              │ _34199_/A1  │ met3  │
-⋮
+![4_antennacheck_1](4_antennacheck_1.png)
+
+### Check STAPostPNR
+Kiem tra file **~/aes/openlane/aes_wb_wrapper/runs/RUN_xx/xx-openroad-stapostpnr/summary.rpt**. Ket qua cho thay khong co loi ***hold violation*** va ***setup violation***, nhung co nhieu loi ***max cap*** va ***max slew violation***. Trong do, corner **max_ss_100C_1v60** gay ra nhieu loi nhat:
+
+![4_sta_1](4_sta_1.png)
+
+### Check DRC
+
+Check Magic.DRC tai file **~/aes/openlane/aes_wb_wrapper/runs/RUN_xx/xx-magic-drc/reports/drc_violations.magic.rpt**. Ket qua check DRC voi Magic khong co loi.
+
+```
+aes_wb_wrapper
+----------------------------------------
+[INFO] COUNT: 0
+[INFO] Should be divided by 3 or 4
+```
+
+Check KLayout.DRC tai file **~/aes/openlane/aes_wb_wrapper/runs/RUN_xx/xx-klayout-drc/reports/drc_violations.klayout.json**. Ket qua check DRC voi KLayout khong co loi (total: 0).
+
+```
+{
+    ...
+    "areaid_re_OFFGRID": 0,
+    "total": 0
+}
+```
+
+### Check LVS
+
+Check Netgen.LVS tai file **~/aes/openlane/aes_wb_wrapper/runs/RUN_xx/xx-netgen-lvs/reports/lvs.netgen.rpt**. Ket qua check LVS voi Netgen OK.
+
+```
+...
+Cell pin lists are equivalent.
+Device classes aes_wb_wrapper and aes_wb_wrapper are equivalent.
+Final result: Circuits match uniquely.
+```
+
+## 7. Debug
+
+De fix cac loi timing tren, can sua lai file **~/aes/openlane/aes_wb_wrapper/config.json** nhu sau:
+
+```json
+{
+    "DESIGN_NAME": "aes_wb_wrapper",
+    "FP_PDN_MULTILAYER": false,
+    "CLOCK_PORT": "wb_clk_i",
+    "CLOCK_PERIOD": 25,
+    "VERILOG_FILES": [
+        "dir::../../verilog/rtl/aes.v",
+        "dir::../../verilog/rtl/aes_core.v",
+        "dir::../../verilog/rtl/aes_decipher_block.v",
+        "dir::../../verilog/rtl/aes_encipher_block.v",
+        "dir::../../verilog/rtl/aes_inv_sbox.v",
+        "dir::../../verilog/rtl/aes_key_mem.v",
+        "dir::../../verilog/rtl/aes_sbox.v",
+        "dir::../../verilog/rtl/aes_wb_wrapper.v"
+    ],
+    "FP_CORE_UTIL": 40,
+    "GRT_ANTENNA_ITERS": 10,
+    "RUN_HEURISTIC_DIODE_INSERTION": true,
+    "HEURISTIC_ANTENNA_THRESHOLD": 200,
+    "DESIGN_REPAIR_MAX_WIRE_LENGTH": 800,
+    "DEFAULT_CORNER": "max_ss_100C_1v60",
+    "RUN_POST_GRT_DESIGN_REPAIR": true,
+    "PNR_SDC_FILE": "dir::pnr.sdc",
+    "SIGNOFF_SDC_FILE": "dir::signoff.sdc"
+}
+```
+
+Tao them 2 file **~/aes/openlane/aes_wb_wrapper/pnr.sdc** va **~/aes/openlane/aes_wb_wrapper/signoff.sdc**. Copy 2 file toi da tao san ve:
+
+```sh
+curl -s https://raw.githubusercontent.com/truong92cdv/aes/refs/heads/main/config/pnr.sdc ~/aes/openlane/aes_wb_wrapper/pnr.sdc
+curl -s https://raw.githubusercontent.com/truong92cdv/aes/refs/heads/main/config/signoff.sdc ~/aes/openlane/aes_wb_wrapper/signoff.sdc
+```
+
+## 8. Chay lai Openlane2 flow, kiem tra ket qua timing
+
+```sh
+[nix-shell:~]$ openlane ~/aes/openlane/aes_wb_wrapper/config.json
+```
 
