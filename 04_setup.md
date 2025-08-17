@@ -1,4 +1,4 @@
-# Step 4 - Setup
+# Bước 4 - Thiết lập
 
 ## 1. Cài đặt **Nix** và **Openlane2**
 
@@ -20,7 +20,7 @@ chmod +x ~/download.sh
 ~/download.sh https://github.com/truong92cdv/aes/rtl ~/aes/verilog/rtl
 ```
 
-## 4. Tạo macro AES Wishbone Wrapper
+## 4. Tạo macro AES Wishbone Wrapper với Openlane
 
 Tạo thư mục chứa AES wishbone wrapper
 ```sh
@@ -69,25 +69,25 @@ Mở KLayout xem kết quả
 
 ![4_klayout_1](images/4_klayout_1.png)
 
-De nhin ro layout nhu tren hinh, ban can tat cac layer ***areaid.lowTapDensity*** va ***areaid.standardc*** (double-click vao layer tuong ung trong KLayout).
+Để nhìn rõ layout như trên hình, bạn cần tắt các layer ***areaid.lowTapDensity*** và ***areaid.standardc*** (double-click vào layer tương ứng trong KLayout).
 
 ## 6. Kiểm tra kết quả timing
 
-Khi flow hoan tat. Ban se thay 1 folder co dang **~/aes/openlane/aes_wb_wrapper/runs/RUN_2025-08-16_21-08-31**. Ten folder **RUN_xx** thay doi theo moi lan chay flow. Day la folder chua ket qua chay Openlane.
+Khi flow hoàn tất, bạn sẽ thấy 1 folder có dạng **~/aes/openlane/aes_wb_wrapper/runs/RUN_2025-08-16_21-08-31**. Tên folder **RUN_xx** thay đổi theo mỗi lần chạy flow. Đây là folder chứa kết quả chạy Openlane.
 
-### Check Antennas
-Kiem tra file **~/aes/openlane/aes_wb_wrapper/runs/RUN_xx/xx-openroad-checkantennas-1/reports/antenna_summary.rpt**. Ban se thay rat nhieu loi ***antenna violations***:
+### Kiểm tra Antennas
+Kiểm tra file **~/aes/openlane/aes_wb_wrapper/runs/RUN_xx/xx-openroad-checkantennas-1/reports/antenna_summary.rpt**. Bạn sẽ thấy rất nhiều lỗi ***antenna violations***:
 
 ![4_antennacheck_1](images/4_antennacheck_1.png)
 
-### Check STA
-Kiem tra file **~/aes/openlane/aes_wb_wrapper/runs/RUN_xx/xx-openroad-stapostpnr/summary.rpt**. Ket qua cho thay khong co loi ***hold violation*** va ***setup violation***, nhung co nhieu loi ***max cap*** va ***max slew violation***. Trong do, corner **max_ss_100C_1v60** gay ra nhieu loi nhat:
+### Kiểm tra STA
+Kiểm tra file **~/aes/openlane/aes_wb_wrapper/runs/RUN_xx/xx-openroad-stapostpnr/summary.rpt**. Kết quả cho thấy không có lỗi ***hold violation*** và ***setup violation***, nhưng có nhiều lỗi ***max cap*** và ***max slew violation***. Trong đó, corner **max_ss_100C_1v60** gây ra nhiều lỗi nhất:
 
 ![4_sta_1](images/4_sta_1.png)
 
-### Check DRC
+### Kiểm tra DRC
 
-Check Magic.DRC tai file **~/aes/openlane/aes_wb_wrapper/runs/RUN_xx/xx-magic-drc/reports/drc_violations.magic.rpt**. Ket qua check DRC voi Magic khong co loi.
+Kiểm tra Magic.DRC tại file **~/aes/openlane/aes_wb_wrapper/runs/RUN_xx/xx-magic-drc/reports/drc_violations.magic.rpt**. Kết quả kiểm tra DRC với Magic không có lỗi.
 
 ```
 aes_wb_wrapper
@@ -96,7 +96,7 @@ aes_wb_wrapper
 [INFO] Should be divided by 3 or 4
 ```
 
-Check KLayout.DRC tai file **~/aes/openlane/aes_wb_wrapper/runs/RUN_xx/xx-klayout-drc/reports/drc_violations.klayout.json**. Ket qua check DRC voi KLayout khong co loi (total: 0).
+Kiểm tra KLayout.DRC tại file **~/aes/openlane/aes_wb_wrapper/runs/RUN_xx/xx-klayout-drc/reports/drc_violations.klayout.json**. Kết quả kiểm tra DRC với KLayout không có lỗi (total: 0).
 
 ```
 {
@@ -106,9 +106,9 @@ Check KLayout.DRC tai file **~/aes/openlane/aes_wb_wrapper/runs/RUN_xx/xx-klayou
 }
 ```
 
-### Check LVS
+### Kiểm tra LVS
 
-Check Netgen.LVS tai file **~/aes/openlane/aes_wb_wrapper/runs/RUN_xx/xx-netgen-lvs/reports/lvs.netgen.rpt**. Ket qua check LVS voi Netgen OK.
+Kiểm tra Netgen.LVS tại file **~/aes/openlane/aes_wb_wrapper/runs/RUN_xx/xx-netgen-lvs/reports/lvs.netgen.rpt**. Kết quả kiểm tra LVS với Netgen OK.
 
 ```
 ...
@@ -117,9 +117,9 @@ Device classes aes_wb_wrapper and aes_wb_wrapper are equivalent.
 Final result: Circuits match uniquely.
 ```
 
-## 7. Debug
+## 7. Khắc phục lỗi
 
-De fix cac loi timing tren, can sua lai file **~/aes/openlane/aes_wb_wrapper/config.json** nhu sau:
+Để fix các lỗi timing trên, cần sửa lại file **~/aes/openlane/aes_wb_wrapper/config.json** như sau:
 
 ```json
 {
@@ -149,45 +149,45 @@ De fix cac loi timing tren, can sua lai file **~/aes/openlane/aes_wb_wrapper/con
 }
 ```
 
-Tao them 2 file **~/aes/openlane/aes_wb_wrapper/pnr.sdc** va **~/aes/openlane/aes_wb_wrapper/signoff.sdc**. Copy 2 file toi da tao san ve:
+Tạo thêm 2 file **~/aes/openlane/aes_wb_wrapper/pnr.sdc** và **~/aes/openlane/aes_wb_wrapper/signoff.sdc**. Copy 2 file tôi đã tạo sẵn về:
 
 ```sh
 curl -s https://raw.githubusercontent.com/truong92cdv/aes/refs/heads/main/config/pnr.sdc ~/aes/openlane/aes_wb_wrapper/pnr.sdc
 curl -s https://raw.githubusercontent.com/truong92cdv/aes/refs/heads/main/config/signoff.sdc ~/aes/openlane/aes_wb_wrapper/signoff.sdc
 ```
 
-## 8. Chay lai Openlane2 flow, kiem tra ket qua timing
+## 8. Chạy lại Openlane2 flow, kiểm tra kết quả timing
 
 ```sh
 [nix-shell:~]$ openlane ~/aes/openlane/aes_wb_wrapper/config.json
 ```
 
-Khi flow hoan tat. Ban se thay 1 folder **RUN_xx** moi **~/aes/openlane/aes_wb_wrapper/runs/RUN_2025-08-16_22-12-58**. 
+Khi flow hoàn tất, bạn sẽ thấy 1 folder **RUN_xx** mới **~/aes/openlane/aes_wb_wrapper/runs/RUN_2025-08-16_22-12-58**. 
 
-### Re-check Antennas
+### Kiểm tra lại Antennas
 
-Kiem tra file **~/aes/openlane/aes_wb_wrapper/runs/RUN_xx/xx-openroad-checkantennas-1/reports/antenna_summary.rpt**. Cac loi ***antenna violations*** giam di dang ke:
+Kiểm tra file **~/aes/openlane/aes_wb_wrapper/runs/RUN_xx/xx-openroad-checkantennas-1/reports/antenna_summary.rpt**. Các lỗi ***antenna violations*** giảm đi đáng kể:
 
 ![4_antennacheck_2](images/4_antennacheck_2.png)
 
-### Re-check STA
+### Kiểm tra lại STA
 
-Kiem tra file **~/aes/openlane/aes_wb_wrapper/runs/RUN_xx/xx-openroad-stapostpnr/summary.rpt**. Tat ca cac loi STA da duoc khac phuc
+Kiểm tra file **~/aes/openlane/aes_wb_wrapper/runs/RUN_xx/xx-openroad-stapostpnr/summary.rpt**. Tất cả các lỗi STA đã được khắc phục
 
 ![4_sta_2](images/4_sta_2.png)
 
-## 9. Luu ket qua layout Macro AES wishbone wrapper
+## 9. Lưu kết quả layout Macro AES wishbone wrapper
 
 ```sh
 [nix-shell:~]$ bash ~/aes/openlane/copy_views.sh ~/aes aes_wb_wrapper RUN_TAG
 ```
 
-Thay **RUN_TAG** bang ten folder **RUN_xx** moi chay thanh cong
+Thay **RUN_TAG** bằng tên folder **RUN_xx** mới chạy thành công
 
 ## 10. Tạo macro User Project Wrapper
 
-User Project Wrapper la macro ben trong chip Caravel chip danh rieng cho nguoi dung. Voi cac cau hinh fixed Floorplan, fixed I/Os pin, fixed power rings khong duoc thay doi. 
-Kiem tra file **~/aes/openlane/user_project_wrapper/config.json**. Ban can sua doi doan khai bao Macro, thay **user_proj_example** thanh **aes_wb_wrapper**. Dat macro o vi tri goc duoi trai [10, 20]:
+User Project Wrapper là macro bên trong chip Caravel dành riêng cho người dùng. Với các cấu hình fixed Floorplan, fixed I/Os pin, fixed power rings không được thay đổi. 
+Kiểm tra file **~/aes/openlane/user_project_wrapper/config.json**. Bạn cần sửa đổi đoạn khai báo Macro, thay **user_proj_example** thành **aes_wb_wrapper**. Đặt macro ở vị trí góc dưới trái [10, 20]:
 
 ```json
     "MACROS": {
@@ -225,13 +225,13 @@ Kiem tra file **~/aes/openlane/user_project_wrapper/config.json**. Ban can sua d
     },
 ```
 
-Thay doi power pins cho phu hop voi power pins cuar macro
+Thay đổi power pins cho phù hợp với power pins của macro
 
 ```json
     "PDN_MACRO_CONNECTIONS": ["mprj vccd2 vssd2 VPWR VGND"],
 ```
 
-Ngoai ra, ban can sua doi file **~/aes/openlane/aes_wb_wrapper/config.json**, them cau hinh **FP_PIN_ORDER_CFG**:
+Ngoài ra, bạn cần sửa đổi file **~/aes/openlane/aes_wb_wrapper/config.json**, thêm cấu hình **FP_PIN_ORDER_CFG**:
 
 ```json
 {
@@ -262,7 +262,7 @@ Ngoai ra, ban can sua doi file **~/aes/openlane/aes_wb_wrapper/config.json**, th
 }
 ```
 
-Dong thoi, tao file **~/aes/openlane/aes_wb_wrapper/pin_order.cfg** co noi dung sau, de dat cac chan pin cua aes_wb_wrapper xuong phia duoi:
+Đồng thời, tạo file **~/aes/openlane/aes_wb_wrapper/pin_order.cfg** có nội dung sau, để đặt các chân pin của aes_wb_wrapper xuống phía dưới:
 
 ```
 #S
@@ -270,25 +270,25 @@ wb_.*
 wbs_.*
 ```
 
-## 11. Chay lai Openlane flow cho **aes_wb_wrapper**
+## 11. Chạy lại Openlane flow cho **aes_wb_wrapper**
 
 ```sh
 [nix-shell:~]$ openlane ~/aes/openlane/aes_wb_wrapper/config.json
 ```
 
-Kiem tra lai cac reports, luu ket qua
+Kiểm tra lại các reports, lưu kết quả
 
 ```sh
 [nix-shell:~]$ bash ~/aes/openlane/copy_views.sh ~/aes aes_wb_wrapper RUN_TAG
 ```
 
-## 12. Chay Openlane flow cho **user_project_wrapper**
+## 12. Chạy Openlane flow cho **user_project_wrapper**
 
 ```sh
 [nix-shell:~]$ openlane ~/aes/openlane/user_project_wrapper/config.json
 ```
 
-Mo KLayout xem ket qua
+Mở KLayout xem kết quả
 
 ```sh
 [nix-shell:~]$ openlane --last-run --flow openinklayout ~/aes/openlane/user_project_wrapper/config.json
@@ -296,8 +296,8 @@ Mo KLayout xem ket qua
 
 ![4_klayout_2](images/4_klayout_2.png)
 
-## 13. Kiem tra lai ket qua timing, luu ket qua
+## 13. Kiểm tra lại kết quả timing, lưu kết quả
 
-Kiem tra file **~/aes/openlane/user_project_wrapper/runs/RUN_xx/xx-openroad-stapostpnr/summary.rpt**.
+Kiểm tra file **~/aes/openlane/user_project_wrapper/runs/RUN_xx/xx-openroad-stapostpnr/summary.rpt**.
 
 
