@@ -28,18 +28,18 @@ AES là một thuật toán mã hóa khối đối xứng được NIST (Nationa
 AES sử dụng kiến trúc Substitution-Permutation Network (SPN) với các thành phần chính:
 
 ```
-Plaintext (128 bits)
+    Plaintext (128 bits)
        ↓
-   AddRoundKey
+    AddRoundKey
        ↓
    ┌─────────────────┐
    │  9 Main Rounds  │
    │  (10, 12, 14)   │
    └─────────────────┘
        ↓
-   Final Round
+    Final Round
        ↓
-   Ciphertext (128 bits)
+    Ciphertext (128 bits)
 ```
 
 ### 2.2 Các Thành Phần Cơ Bản
