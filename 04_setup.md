@@ -49,14 +49,14 @@ nix-shell --pure ~/openlane2/shell.nix
 
 7. Chay flow thiet ke voi Openlane2 . Hay dam bao ban dang trong moi truong nix-shell (cmd-line hien thi **[nix-shell:~]$ **)
 ```sh
-openlane ~/aes/openlane/aes_wb_wrapper/config.json
+[nix-shell:~]$ openlane ~/aes/openlane/aes_wb_wrapper/config.json
 ```
 Doi flow chay hoan tat, khoang 20 phut :(
 
 
 8. Mo KLayout xem ket qua
 ```sh
-openlane --last-run --flow openinklayout ~/aes/openlane/aes_wb_wrapper/config.json
+[nix-shell:~]$ openlane --last-run --flow openinklayout ~/aes/openlane/aes_wb_wrapper/config.json
 ```
 
 ![4_klayout_1](images/4_klayout_1.png)
