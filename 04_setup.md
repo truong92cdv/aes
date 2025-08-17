@@ -2,18 +2,12 @@
 
 0. Cai dat **Nix** va **Openlane2**
 
----
-
 1. Tạo 1 repo github từ template của Caravel, tích hợp sẵn bộ công cụ Openlane2 tại [Caravel project](https://github.com/efabless/caravel_user_project_ol2/generate).
-
----
 
 2. Mở terminal, clone repo mới tạo về, ví dụ:
 ```sh
 git clone https://github.com/truong92cdv/caravel_aes_accelerator.git ~/aes
 ```
-
----
 
 3. File RTL thiết kế sẽ được đặt trong thư mục **~/aes/verilog/rtl/**. File **user_project_wrapper.v** là wrapper chứa thiết kế của chúng ta. Bạn cần sửa lại đoạn code *user project is instantiated  here*. Đồng thời copy các file thiết kế của **aes** về cùng thư mục. Bạn có thể copy thủ công hoặc dùng scipt download tôi đã tạo sẵn:
 ```sh
@@ -22,14 +16,10 @@ chmod +x ~/download.sh
 ~/download.sh https://github.com/truong92cdv/aes/rtl ~/aes/verilog/rtl
 ```
 
----
-
 4. Tao macro AES Wishbone Wrapper voi Openlane
 ```sh
 mkdir -p ~/aes/openlane/aes_wb_wrapper
 ```
-
----
 
 5. Tao file **~/aes/openlane/aes_wb_wrapper/config.json** va cau hinh nhu sau:
 ```json
@@ -52,14 +42,10 @@ mkdir -p ~/aes/openlane/aes_wb_wrapper
 }
 ```
 
----
-
 6. Khoi chay Openlane2 trong moi truong nix-shell, thay doi duong dan theo vi tri cai dat openlane2 cua ban.
 ```sh
 nix-shell --pure ~/openlane2/shell.nix
 ```
-
----
 
 7. Chay flow thiet ke voi Openlane2 . Hay dam bao ban dang trong moi truong nix-shell (cmd-line hien thi **[nix-shell:~]$ **)
 ```sh
@@ -67,7 +53,6 @@ openlane ~/aes/openlane/aes_wb_wrapper/config.json
 ```
 Doi flow chay hoan tat, khoang 20 phut :(
 
----
 
 8. Mo KLayout xem ket qua
 ```sh
