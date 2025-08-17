@@ -1,4 +1,4 @@
-# Step 6 - Tài Liệu Tham Khảo
+# Step 6 - References
 
 ## Tài Liệu Chính
 
@@ -24,16 +24,16 @@
 - **GTKWave**: [Waveform Viewer](http://gtkwave.sourceforge.net/)
 - **Icarus Verilog**: [Verilog Simulator](http://iverilog.icarus.com/)
 
-### 7. Academic Papers
+### 6. Academic Papers
 - **AES Implementation**: [Efficient AES Implementation](https://ieeexplore.ieee.org/document/1234567)
 - **Hardware Security**: [Side-Channel Attack Protection](https://ieeexplore.ieee.org/document/2345678)
 
-### 8. Community Resources
+### 7. Community Resources
 - **OpenROAD**: [Open Source EDA Tools](https://theopenroadproject.org/)
 - **Open Source Silicon**: [Open Source Hardware](https://opensource-silicon.org/)
 - **RISC-V Foundation**: [Open Source ISA](https://riscv.org/)
 
-### 9. Source Code Repositories
+### 8. Source Code Repositories
 - **AES Core**: [Secworks AES Implementation](https://github.com/secworks/aes)
 - **Caravel Integration**: [User Project Template](https://github.com/efabless/caravel_user_project)
 - **OpenLane Flow**: [Digital Design Flow](https://github.com/The-OpenROAD-Project/OpenLane)
