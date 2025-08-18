@@ -1,12 +1,12 @@
-# Step 4 - Build project, step by step
+# 🔧 Step 4 - Build Project, Step by Step
 
 **[🏠 Home](../README.md)**
 
-## 1. Cài đặt **Nix** và **Openlane2**
+## 🚀 1. Cài Đặt **Nix** và **Openlane2**
 
 Xem hướng dẫn tại đây [Install Nix & Openlane2](https://openlane2.readthedocs.io/en/latest/getting_started/common/nix_installation/installation_linux.html).
 
-## 2. Tạo project từ Caravel template
+## 📁 2. Tạo Project Từ Caravel Template
 
 Tạo 1 repo github từ template của Caravel tại [Caravel project](https://github.com/efabless/caravel_user_project_ol2/generate).
 
@@ -15,7 +15,7 @@ Mở terminal, clone repo mới tạo về, ví dụ:
 git clone https://github.com/truong92cdv/caravel_aes_accelerator.git ~/aes
 ```
 
-## 3. Chuẩn bị file RTL
+## 📋 3. Chuẩn Bị File RTL
 
 File RTL thiết kế sẽ được đặt trong thư mục **~/aes/verilog/rtl/**. File **user_project_wrapper.v** là wrapper chứa thiết kế của chúng ta. Bạn cần sửa lại đoạn code *user project is instantiated  here*. Đồng thời copy các file thiết kế của **aes** về cùng thư mục. Bạn có thể copy thủ công hoặc dùng script download tôi đã tạo sẵn:
 ```sh
@@ -26,9 +26,9 @@ chmod +x ~/download.sh
 
 Folder **rtl** gồm các file sau:
 
-![4_rtl](images/4_rtl.png)
+![4_rtl](../images/4_rtl.png)
 
-## 4. Tạo macro AES Wishbone Wrapper với Openlane
+## 🏗️ 4. Tạo Macro AES Wishbone Wrapper Với Openlane
 
 Tạo thư mục chứa AES wishbone wrapper
 ```sh
@@ -56,7 +56,7 @@ Tạo file **~/aes/openlane/aes_wb_wrapper/config.json** và cấu hình như sa
 }
 ```
 
-## 5. Chạy Openlane2 flow cho Macro AES Wishbone Wrapper
+## ⚡ 5. Chạy Openlane2 Flow Cho Macro AES Wishbone Wrapper
 
 Khởi chạy Openlane2 trong môi trường nix-shell, thay đổi đường dẫn theo vị trí cài đặt openlane2 của bạn.
 ```sh
@@ -75,25 +75,25 @@ Mở KLayout xem kết quả
 [nix-shell:~]$ openlane --last-run --flow openinklayout ~/aes/openlane/aes_wb_wrapper/config.json
 ```
 
-![4_klayout_1](images/4_klayout_1.png)
+![4_klayout_1](../images/4_klayout_1.png)
 
 Để nhìn rõ layout như trên hình, bạn cần tắt các layer ***areaid.lowTapDensity*** và ***areaid.standardc*** (double-click vào layer tương ứng trong KLayout).
 
-## 6. Kiểm tra kết quả timing
+## 📊 6. Kiểm Tra Kết Quả Timing
 
 Khi flow hoàn tất, bạn sẽ thấy 1 folder có dạng **~/aes/openlane/aes_wb_wrapper/runs/RUN_2025-08-16_21-08-31**. Tên folder **RUN_xx** thay đổi theo mỗi lần chạy flow. Đây là folder chứa kết quả chạy Openlane.
 
-### Kiểm tra Antennas
+### 🔍 Kiểm Tra Antennas
 Kiểm tra file **~/aes/openlane/aes_wb_wrapper/runs/RUN_xx/xx-openroad-checkantennas-1/reports/antenna_summary.rpt**. Bạn sẽ thấy rất nhiều lỗi ***antenna violations***:
 
-![4_antennacheck_1](images/4_antennacheck_1.png)
+![4_antennacheck_1](../images/4_antennacheck_1.png)
 
-### Kiểm tra STA
+### ⏱️ Kiểm Tra STA
 Kiểm tra file **~/aes/openlane/aes_wb_wrapper/runs/RUN_xx/xx-openroad-stapostpnr/summary.rpt**. Kết quả cho thấy không có lỗi ***hold violation*** và ***setup violation***, nhưng có nhiều lỗi ***max cap*** và ***max slew violation***. Trong đó, corner **max_ss_100C_1v60** gây ra nhiều lỗi nhất:
 
-![4_sta_1](images/4_sta_1.png)
+![4_sta_1](../images/4_sta_1.png)
 
-### Kiểm tra DRC
+### ✅ Kiểm Tra DRC
 
 Kiểm tra Magic.DRC tại file **~/aes/openlane/aes_wb_wrapper/runs/RUN_xx/xx-magic-drc/reports/drc_violations.magic.rpt**. Kết quả kiểm tra DRC với Magic không có lỗi.
 
@@ -114,7 +114,7 @@ Kiểm tra KLayout.DRC tại file **~/aes/openlane/aes_wb_wrapper/runs/RUN_xx/xx
 }
 ```
 
-### Kiểm tra LVS
+### 🔗 Kiểm Tra LVS
 
 Kiểm tra Netgen.LVS tại file **~/aes/openlane/aes_wb_wrapper/runs/RUN_xx/xx-netgen-lvs/reports/lvs.netgen.rpt**. Kết quả kiểm tra LVS với Netgen OK.
 
@@ -125,7 +125,7 @@ Device classes aes_wb_wrapper and aes_wb_wrapper are equivalent.
 Final result: Circuits match uniquely.
 ```
 
-## 7. Khắc phục lỗi
+## 🛠️ 7. Khắc Phục Lỗi
 
 Để fix các lỗi timing trên, cần sửa lại file **~/aes/openlane/aes_wb_wrapper/config.json** như sau:
 
@@ -164,7 +164,7 @@ curl -s https://raw.githubusercontent.com/truong92cdv/aes/refs/heads/main/config
 curl -s https://raw.githubusercontent.com/truong92cdv/aes/refs/heads/main/config/signoff.sdc ~/aes/openlane/aes_wb_wrapper/signoff.sdc
 ```
 
-## 8. Chạy lại Openlane2 flow, kiểm tra kết quả timing
+## 🔄 8. Chạy Lại Openlane2 Flow, Kiểm Tra Kết Quả Timing
 
 ```sh
 [nix-shell:~]$ openlane ~/aes/openlane/aes_wb_wrapper/config.json
@@ -172,19 +172,19 @@ curl -s https://raw.githubusercontent.com/truong92cdv/aes/refs/heads/main/config
 
 Khi flow hoàn tất, bạn sẽ thấy 1 folder **RUN_xx** mới **~/aes/openlane/aes_wb_wrapper/runs/RUN_2025-08-16_22-12-58**. 
 
-### Kiểm tra lại Antennas
+### 🔍 Kiểm Tra Lại Antennas
 
 Kiểm tra file **~/aes/openlane/aes_wb_wrapper/runs/RUN_xx/xx-openroad-checkantennas-1/reports/antenna_summary.rpt**. Các lỗi ***antenna violations*** giảm đi đáng kể:
 
-![4_antennacheck_2](images/4_antennacheck_2.png)
+![4_antennacheck_2](../images/4_antennacheck_2.png)
 
-### Kiểm tra lại STA
+### ⏱️ Kiểm Tra Lại STA
 
 Kiểm tra file **~/aes/openlane/aes_wb_wrapper/runs/RUN_xx/xx-openroad-stapostpnr/summary.rpt**. Tất cả các lỗi STA đã được khắc phục
 
-![4_sta_2](images/4_sta_2.png)
+![4_sta_2](../images/4_sta_2.png)
 
-## 9. Lưu kết quả layout Macro AES wishbone wrapper
+## 💾 9. Lưu Kết Quả Layout Macro AES Wishbone Wrapper
 
 ```sh
 [nix-shell:~]$ bash ~/aes/openlane/copy_views.sh ~/aes aes_wb_wrapper RUN_TAG
@@ -192,7 +192,7 @@ Kiểm tra file **~/aes/openlane/aes_wb_wrapper/runs/RUN_xx/xx-openroad-stapostp
 
 Thay **RUN_TAG** bằng tên folder **RUN_xx** mới chạy thành công
 
-## 10. Tạo macro User Project Wrapper
+## 🎯 10. Tạo Macro User Project Wrapper
 
 User Project Wrapper là macro bên trong chip Caravel dành riêng cho người dùng. Với các cấu hình fixed Floorplan, fixed I/Os pin, fixed power rings không được thay đổi. 
 Kiểm tra file **~/aes/openlane/user_project_wrapper/config.json**. Bạn cần sửa đổi đoạn khai báo Macro, thay **user_proj_example** thành **aes_wb_wrapper**. Đặt macro ở vị trí góc dưới trái [10, 20]:
@@ -248,13 +248,13 @@ Ngoài ra, bạn cần sửa đổi file **~/aes/openlane/aes_wb_wrapper/config.
     "CLOCK_PORT": "wb_clk_i",
     "CLOCK_PERIOD": 25,
     "VERILOG_FILES": [
-        "dir::../../../secworks_aes/src/rtl/aes.v",
-        "dir::../../../secworks_aes/src/rtl/aes_core.v",
-        "dir::../../../secworks_aes/src/rtl/aes_decipher_block.v",
-        "dir::../../../secworks_aes/src/rtl/aes_encipher_block.v",
-        "dir::../../../secworks_aes/src/rtl/aes_inv_sbox.v",
-        "dir::../../../secworks_aes/src/rtl/aes_key_mem.v",
-        "dir::../../../secworks_aes/src/rtl/aes_sbox.v",
+        "dir::../../verilog/rtl/aes.v",
+        "dir::../../verilog/rtl/aes_core.v",
+        "dir::../../verilog/rtl/aes_decipher_block.v",
+        "dir::../../verilog/rtl/aes_encipher_block.v",
+        "dir::../../verilog/rtl/aes_inv_sbox.v",
+        "dir::../../verilog/rtl/aes_key_mem.v",
+        "dir::../../verilog/rtl/aes_sbox.v",
         "dir::../../verilog/rtl/aes_wb_wrapper.v"
     ],
     "FP_CORE_UTIL": 40,
@@ -278,7 +278,7 @@ wb_.*
 wbs_.*
 ```
 
-## 11. Chạy lại Openlane flow cho **aes_wb_wrapper**
+## 🔄 11. Chạy Lại Openlane Flow Cho **aes_wb_wrapper**
 
 ```sh
 [nix-shell:~]$ openlane ~/aes/openlane/aes_wb_wrapper/config.json
@@ -290,7 +290,7 @@ Kiểm tra lại các reports, lưu kết quả
 [nix-shell:~]$ bash ~/aes/openlane/copy_views.sh ~/aes aes_wb_wrapper RUN_TAG
 ```
 
-## 12. Chạy Openlane flow cho **user_project_wrapper**
+## 🚀 12. Chạy Openlane Flow Cho **user_project_wrapper**
 
 ```sh
 [nix-shell:~]$ openlane ~/aes/openlane/user_project_wrapper/config.json
@@ -304,12 +304,12 @@ Mở KLayout xem kết quả
 
 ![4_klayout_2](images/4_klayout_2.png)
 
-## 13. Kiểm tra lại kết quả timing, lưu kết quả
+## 📊 13. Kiểm Tra Lại Kết Quả Timing, Lưu Kết Quả
 
 Kiểm tra file **~/aes/openlane/user_project_wrapper/runs/RUN_xx/xx-openroad-stapostpnr/summary.rpt**.
 
 
-Luu ket qua
+**💾 Lưu Kết Quả**
 
 ```sh
 [nix-shell:~]$ bash ~/aes/openlane/copy_views.sh ~/aes user_project_wrapper RUN_TAG
@@ -317,4 +317,4 @@ Luu ket qua
 
 ---
 
-**[🚀 Step 5 - Future Devs](05_future_devs.md)** - Hướng phát triển tương lai
+**[🚀 Step 5 - Future Devs](05_future_devs.md)** - Hướng Phát Triển Tương Lai
