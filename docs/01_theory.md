@@ -1,5 +1,7 @@
 # Step 1 - Theory
 
+**[🏠 Home](../README.md)**
+
 ## 1. Tổng Quan về Mã Hóa AES
 
 ### 1.1 Giới Thiệu AES (Advanced Encryption Standard)
@@ -266,5 +268,3 @@ Dự án AES Accelerator trên Caravel không chỉ cung cấp một giải phá
 ### 🚀 Tiếp Theo
 
 **[🏗️ Step 2 - RTL design](02_rtl_design.md)** - Kiến trúc RTL và luồng thực thi CPU
-
-**[🏠 Home](../README.md)**
