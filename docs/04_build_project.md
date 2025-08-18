@@ -302,7 +302,7 @@ Mở KLayout xem kết quả
 [nix-shell:~]$ openlane --last-run --flow openinklayout ~/aes/openlane/user_project_wrapper/config.json
 ```
 
-![4_klayout_2](images/4_klayout_2.png)
+![4_klayout_2](../images/4_klayout_2.png)
 
 ## 📊 13. Kiểm Tra Lại Kết Quả Timing, Lưu Kết Quả
 
