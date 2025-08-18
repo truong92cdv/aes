@@ -1,5 +1,7 @@
 # Step 3 - RTL Testbench
 
+**[🏠 Home](../README.md)**
+
 ## 📋 Tổng Quan
 
 Phần này mô tả cấu trúc và kết quả của các testbench được sử dụng để verify AES Accelerator. Các testbench được thiết kế để kiểm tra toàn diện chức năng của từng module, đảm bảo tính chính xác của thuật toán AES theo chuẩn NIST FIPS 197, và validate sự tích hợp giữa các module con.
@@ -151,19 +153,16 @@ Testbench Files
 
 ---
 
-## 🚀 Tiếp Theo
+### **Giai thich chi tiet tung file testbench**
 
-### **📖 Bước Tiếp Theo: OpenLane2 Flow cho ASIC**
-Sau khi đã hiểu testbench và verification, bạn có thể tiếp tục với:
+* [tb_aes.v](docs/tb_aes.md)
+* [tb_aes_core.v](docs/tb_aes_core.md)
+* [tb_aes_encipher_block.v](docs/tb_aes_encipher_block.md)
+* [tb_aes_decipher_block.v](docs/tb_aes_decipher_block.md)
+* [tb_aes_key_mem.v](docs/tb_aes_key_mem.md)
+* [tb_aes_sbox.v](docs/tb_aes_sbox.md)
+* [tb_aes_inv_sbox.v](docs/tb_aes_inv_sbox.md)
 
-**[🔧 04_openlane2_flow.md](04_openlane2_flow.md)** - Quy trình OpenLane2 cho ASIC
+---
 
-**Nội dung chính:**
-- Quy trình thiết kế ASIC với OpenLane2
-- Synthesis, placement và routing
-- Timing analysis và signoff
-- GDSII generation cho fabrication
-
-### **🏠 Về Trang Chủ**
-**[📚 docs/README.md](../README.md)** - Trang chủ với tất cả tài liệu
-
+**[🔧 Step 4 - Build project, step by step](04_build_project.md)** - Hướng dẫn build project

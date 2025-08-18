@@ -15,6 +15,6 @@ Thiết kế lõi IP mã hóa AES với Caravel Platform
 * [Step 1 - Theory](docs/01_theory.md) - Lý thuyết về chuẩn mã hóa AES
 * [Step 2 - RTL design](docs/02_rtl_design.md) - Kiến trúc RTL và luồng thực thi CPU
 * [Step 3 - RTL testbench](docs/03_rtl_testbench.md) - Tổng quan testbench và kết quả
-* [Step 4 - Build project - step by step](docs/04_build_project.md) - Hướng dẫn build project
+* [Step 4 - Build project, step by step](docs/04_build_project.md) - Hướng dẫn build project
 * [Step 5 - Future devs](docs/05_future_devs.md) - Hướng phát triển tương lai
 * [Step 6 - References](docs/06_references.md) - Tài liệu tham khảo

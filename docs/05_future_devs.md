@@ -1,5 +1,6 @@
 # Step 5 - Future Devs
 
+**[🏠 Home](../README.md)**
 
 ## 1. Cải Thiện Hiệu Suất
 
@@ -81,19 +82,4 @@
 
 ---
 
-## 🚀 Tiếp Theo
-
-### **📖 Bước Tiếp Theo: Tài Liệu Tham Khảo**
-Sau khi đã hiểu hướng phát triển tương lai, bạn có thể tham khảo:
-
-**[📚 06_references.md](06_references.md)** - Tài liệu tham khảo và nguồn
-
-**Nội dung chính:**
-- NIST FIPS 197 AES Standard
-- Caravel Platform documentation
-- Wishbone Bus specification
-- OpenLane và OpenROAD tools
-- Academic papers và community resources
-
-### **🏠 Về Trang Chủ**
-**[📚 docs/README.md](../README.md)** - Trang chủ với tất cả tài liệu
+**[📚 Step 6 - References](06_references.md)** - Tài liệu tham khảo

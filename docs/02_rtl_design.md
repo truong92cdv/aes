@@ -1,5 +1,7 @@
 # Step 2 - RTL Design
 
+**[🏠 Home](../README.md)**
+
 ## 📋 Tổng Quan
 
 Phần này mô tả kiến trúc RTL của AES Accelerator, bao gồm các module chính và luồng thực thi CPU cần thiết để giao tiếp với AES core qua Wishbone protocol.
@@ -300,18 +302,16 @@ graph TD
 
 ---
 
-## 🚀 Tiếp Theo
+### **Giai thich chi tiet tung module**
 
-### **📖 Bước Tiếp Theo: Testbench và Verification**
-Sau khi đã hiểu kiến trúc RTL và luồng thực thi CPU, bạn có thể tiếp tục với:
+* [aes.v](docs/rtl_aes.md)
+* [aes_core.v](docs/rtl_aes_core.md)
+* [aes_encipher_block.v](docs/rtl_aes_encipher_block.md)
+* [aes_decipher_block.v](docs/rtl_aes_decipher_block.md)
+* [aes_key_mem.v](docs/rtl_aes_key_mem.md)
+* [aes_sbox.v](docs/rtl_aes_sbox.md)
+* [aes_inv_sbox.v](docs/rtl_aes_inv_sbox.md)
 
-**[🧪 03_rtl_testbench.md](03_rtl_testbench.md)** - Tổng quan testbench và kết quả
+---
 
-**Nội dung chính:**
-- Cấu trúc testbench và test strategy
-- Kết quả verification của từng module
-- Coverage analysis và test results
-- Verification methodology
-
-### **🏠 Về Trang Chủ**
-**[📚 docs/README.md](../README.md)** - Trang chủ với tất cả tài liệu
+**[🧪 Step 3 - RTL Testbench](03_rtl_testbench.md)** - Tổng quan testbench và kết quả

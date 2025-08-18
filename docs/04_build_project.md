@@ -1,4 +1,6 @@
-# Step 4 - Openlane2 Flow
+# Step 4 - Build project, step by step
+
+**[🏠 Home](../README.md)**
 
 ## 1. Cài đặt **Nix** và **Openlane2**
 
@@ -315,19 +317,4 @@ Luu ket qua
 
 ---
 
-## 🚀 Tiếp Theo
-
-### **📖 Bước Tiếp Theo: Hướng Phát Triển Tương Lai**
-Sau khi đã hoàn thành OpenLane2 flow và có GDSII, bạn có thể tiếp tục với:
-
-**[🚀 05_future_devs.md](05_future_devs.md)** - Hướng phát triển tương lai
-
-**Nội dung chính:**
-- Cải thiện hiệu suất và tối ưu hóa
-- Mở rộng tính năng và giao diện
-- Bảo mật và side-channel protection
-- Triển khai FPGA và ASIC
-- Roadmap phát triển
-
-### **🏠 Về Trang Chủ**
-**[📚 docs/README.md](../README.md)** - Trang chủ với tất cả tài liệu
+**[🚀 Step 5 - Future Devs](05_future_devs.md)** - Hướng phát triển tương lai
