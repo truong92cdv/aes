@@ -576,56 +576,6 @@ Decrypted result: 6bc1bee22e409f96e93d7e117393172a
 | **Round-trip Testing** | 1 | 1 | 0 | 100% |
 | **Total** | **9** | **9** | **0** | **100%** |
 
-### **Performance Metrics**
-| Metric | Value |
-|--------|-------|
-| **Simulation Time** | 3.12 ms |
-| **Clock Cycles** | 1,560 |
-| **Memory Usage** | 42.1 MB |
-| **Coverage** | 100% |
-
-### **Inverse Transformation Coverage**
-```
-InvSubBytes: ✓ PASS
-InvShiftRows: ✓ PASS
-InvMixColumns: ✓ PASS
-AddRoundKey: ✓ PASS
-Inverse Relationships: ✓ PASS
-Round-trip: ✓ PASS
-```
-
----
-
-## 🔧 Lợi Ích của Testbench
-
-### **1. Inverse Transformation Testing**
-- **Individual verification**: Test từng inverse transformation riêng biệt
-- **Inverse relationship**: Verify mối quan hệ ngược với encryption
-- **Mathematical correctness**: Đảm bảo tính chính xác toán học
-
-### **2. Round-trip Testing**
-- **End-to-end verification**: Test toàn bộ flow encryption -> decryption
-- **Data integrity**: Đảm bảo tính toàn vẹn dữ liệu
-- **Algorithm validation**: Xác nhận thuật toán hoạt động chính xác
-
-### **3. Debug Capability**
-- **Transformation monitoring**: Theo dõi từng inverse transformation
-- **Intermediate results**: Xem kết quả trung gian
-- **Error isolation**: Cô lập lỗi trong từng transformation
-
----
-
-## 🎯 Kết Luận
-
-Testbench `tb_aes_decipher_block.v` cung cấp một framework testing toàn diện và hiệu quả cho module giải mã AES. Với **100% test pass rate** và **100% coverage**, testbench này đảm bảo:
-
-- ✅ **Inverse transformation correctness**: Tất cả inverse transformation hoạt động chính xác
-- ✅ **Mathematical accuracy**: Độ chính xác toán học cao
-- ✅ **Round-trip reliability**: Đảm bảo tính tin cậy của round-trip testing
-- ✅ **Performance validation**: Xác nhận hiệu suất giải mã
-
-Module `aes_decipher_block.v` đã được verify hoạt động chính xác và đáng tin cậy, đảm bảo chất lượng của quá trình giải mã AES và tính toàn vẹn của toàn bộ hệ thống.
-
 ---
 
 *📝 Tài liệu được cập nhật lần cuối: Tháng 12/2024*

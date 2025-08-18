@@ -497,58 +497,6 @@ Got: 6bc1bee22e409f96e93d7e117393172a
 | **AES-256 Decryption** | 1 | 1 | 0 | 100% |
 | **Total** | **4** | **4** | **0** | **100%** |
 
-### **Performance Metrics**
-| Metric | Value |
-|--------|-------|
-| **Simulation Time** | 5.67 ms |
-| **Clock Cycles** | 2,834 |
-| **Memory Usage** | 67.8 MB |
-| **Coverage** | 100% |
-
-### **NIST Compliance**
-```
-AES-128 Test Vector: ✓ PASS
-AES-256 Test Vector: ✓ PASS
-ECB Mode: ✓ PASS
-Key Expansion: ✓ PASS
-SubBytes: ✓ PASS
-ShiftRows: ✓ PASS
-MixColumns: ✓ PASS
-AddRoundKey: ✓ PASS
-```
-
----
-
-## 🔧 Lợi Ích của Testbench
-
-### **1. Comprehensive Testing**
-- **End-to-end verification**: Test toàn bộ flow
-- **NIST compliance**: Đảm bảo theo chuẩn quốc tế
-- **Multi-mode support**: Hỗ trợ nhiều chế độ
-
-### **2. Integration Testing**
-- **Module integration**: Kiểm tra tích hợp các module con
-- **Bus interface**: Verify Wishbone bus interface
-- **Control flow**: Kiểm tra luồng điều khiển
-
-### **3. Debug Capability**
-- **Detailed logging**: Log chi tiết từng bước
-- **Error reporting**: Báo cáo lỗi rõ ràng
-- **State monitoring**: Theo dõi trạng thái hệ thống
-
----
-
-## 🎯 Kết Luận
-
-Testbench `tb_aes.v` cung cấp một framework testing toàn diện và hiệu quả cho toàn bộ hệ thống AES Accelerator. Với **100% test pass rate** và **100% NIST compliance**, testbench này đảm bảo:
-
-- ✅ **Functional correctness**: Tất cả chức năng hoạt động chính xác
-- ✅ **NIST compliance**: Tuân thủ chuẩn quốc tế
-- ✅ **Integration reliability**: Tích hợp ổn định
-- ✅ **Performance validation**: Xác nhận hiệu suất
-
-Hệ thống AES Accelerator đã được verify hoạt động chính xác và đáng tin cậy, sẵn sàng cho việc triển khai trên Caravel platform.
-
 ---
 
 *📝 Tài liệu được cập nhật lần cuối: Tháng 12/2024*

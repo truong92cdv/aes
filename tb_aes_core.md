@@ -533,55 +533,6 @@ Reset Test 2: Normal operation restored ✓ PASS
 | **Reset Functionality** | 2 | 2 | 0 | 100% |
 | **Total** | **8** | **8** | **0** | **100%** |
 
-### **Performance Metrics**
-| Metric | Value |
-|--------|-------|
-| **Simulation Time** | 3.89 ms |
-| **Clock Cycles** | 1,945 |
-| **Memory Usage** | 52.3 MB |
-| **Coverage** | 100% |
-
-### **State Machine Coverage**
-```
-IDLE -> INIT: ✓ PASS
-INIT -> IDLE: ✓ PASS
-IDLE -> NEXT: ✓ PASS
-NEXT -> IDLE: ✓ PASS
-Error States: ✓ PASS
-```
-
----
-
-## 🔧 Lợi Ích của Testbench
-
-### **1. State Machine Testing**
-- **Transition verification**: Kiểm tra chuyển đổi trạng thái
-- **Control logic**: Verify logic điều khiển
-- **Timing validation**: Xác nhận timing
-
-### **2. Flow Testing**
-- **Complete flows**: Test toàn bộ flow
-- **Data validation**: Verify dữ liệu
-- **Integration testing**: Kiểm tra tích hợp
-
-### **3. Debug Capability**
-- **State monitoring**: Theo dõi trạng thái
-- **Signal tracing**: Trace tín hiệu
-- **Error reporting**: Báo cáo lỗi chi tiết
-
----
-
-## 🎯 Kết Luận
-
-Testbench `tb_aes_core.v` cung cấp một framework testing toàn diện và hiệu quả cho module điều khiển trung tâm AES. Với **100% test pass rate** và **100% coverage**, testbench này đảm bảo:
-
-- ✅ **State machine correctness**: Logic trạng thái hoạt động chính xác
-- ✅ **Control flow reliability**: Luồng điều khiển ổn định
-- ✅ **Integration stability**: Tích hợp các module con ổn định
-- ✅ **Performance validation**: Xác nhận hiệu suất
-
-Module `aes_core.v` đã được verify hoạt động chính xác và đáng tin cậy, đảm bảo sự ổn định của toàn bộ hệ thống AES Accelerator.
-
 ---
 
 *📝 Tài liệu được cập nhật lần cuối: Tháng 12/2024*
