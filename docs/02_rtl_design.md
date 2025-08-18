@@ -304,13 +304,13 @@ graph TD
 
 ### **Giải Thích Chi Tiết Từng Module**
 
-* [aes.v](docs/rtl_aes.md)
-* [aes_core.v](docs/rtl_aes_core.md)
-* [aes_encipher_block.v](docs/rtl_aes_encipher_block.md)
-* [aes_decipher_block.v](docs/rtl_aes_decipher_block.md)
-* [aes_key_mem.v](docs/rtl_aes_key_mem.md)
-* [aes_sbox.v](docs/rtl_aes_sbox.md)
-* [aes_inv_sbox.v](docs/rtl_aes_inv_sbox.md)
+* [aes.v](rtl_aes.md)
+* [aes_core.v](rtl_aes_core.md)
+* [aes_encipher_block.v](rtl_aes_encipher_block.md)
+* [aes_decipher_block.v](rtl_aes_decipher_block.md)
+* [aes_key_mem.v](rtl_aes_key_mem.md)
+* [aes_sbox.v](rtl_aes_sbox.md)
+* [aes_inv_sbox.v](rtl_aes_inv_sbox.md)
 
 ---
 

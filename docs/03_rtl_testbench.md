@@ -155,13 +155,13 @@ Testbench Files
 
 ### **Giải Thích Chi Tiết Từng File Testbench**
 
-* [tb_aes.v](docs/tb_aes.md)
-* [tb_aes_core.v](docs/tb_aes_core.md)
-* [tb_aes_encipher_block.v](docs/tb_aes_encipher_block.md)
-* [tb_aes_decipher_block.v](docs/tb_aes_decipher_block.md)
-* [tb_aes_key_mem.v](docs/tb_aes_key_mem.md)
-* [tb_aes_sbox.v](docs/tb_aes_sbox.md)
-* [tb_aes_inv_sbox.v](docs/tb_aes_inv_sbox.md)
+* [tb_aes.v](tb_aes.md)
+* [tb_aes_core.v](tb_aes_core.md)
+* [tb_aes_encipher_block.v](tb_aes_encipher_block.md)
+* [tb_aes_decipher_block.v](tb_aes_decipher_block.md)
+* [tb_aes_key_mem.v](tb_aes_key_mem.md)
+* [tb_aes_sbox.v](tb_aes_sbox.md)
+* [tb_aes_inv_sbox.v](tb_aes_inv_sbox.md)
 
 ---
 
