@@ -72,6 +72,91 @@ graph TD
 
 ---
 
+## 📊 Memory Map
+
+### **Core Information (Read Only)**
+| Địa Chỉ | Tên | Mô Tả |
+|----------|------|--------|
+| `0x00` | `CORE_NAME0` | Tên core (32 bit thấp) |
+| `0x01` | `CORE_NAME1` | Tên core (32 bit cao) |
+| `0x02` | `CORE_VERSION` | Phiên bản |
+
+### **Control Register (0x08) - Write/Read**
+| Bit | Tên | Mô Tả |
+|-----|------|--------|
+| 0 | `INIT` | 1 = Khởi tạo khóa |
+| 1 | `NEXT` | 1 = Bắt đầu xử lý |
+
+### **Status Register (0x09) - Read Only**
+| Bit | Tên | Mô Tả |
+|-----|------|--------|
+| 0 | `READY` | 1 = Core sẵn sàng |
+| 1 | `VALID` | 1 = Kết quả hợp lệ |
+
+### **Configuration Register (0x0A) - Write Only**
+| Bit | Tên | Mô Tả |
+|-----|------|--------|
+| 0 | `ENCDEC` | 0 = Mã hóa, 1 = Giải mã |
+| 1 | `KEYLEN` | 0 = 128-bit, 1 = 256-bit |
+
+### **Key Registers (0x10-0x17) - Write Only**
+| Địa Chỉ | Tên | Mô Tả |
+|----------|------|--------|
+| `0x10-0x13` | `KEY[0:3]` | Khóa 128-bit (4 words) |
+| `0x14-0x17` | `KEY[4:7]` | Khóa 256-bit (4 words thêm) |
+
+### **Data Registers (0x20-0x23) - Write Only**
+| Địa Chỉ | Tên | Mô Tả |
+|----------|------|--------|
+| `0x20-0x23` | `BLOCK[0:3]` | Dữ liệu input (4 words) |
+
+### **Result Registers (0x30-0x33) - Read Only**
+| Địa Chỉ | Tên | Mô Tả |
+|----------|------|--------|
+| `0x30-0x33` | `RESULT[0:3]` | Kết quả output (4 words) |
+
+---
+
+## 🔧 Wishbone Bus Interface
+
+### **Signals**
+```verilog
+// Clock và Reset
+wb_clk_i      // Wishbone clock
+wb_rst_i      // Wishbone reset (active low)
+
+// Bus Interface
+wbs_stb_i     // Strobe signal
+wbs_cyc_i     // Cycle signal
+wbs_we_i      // Write enable
+wbs_sel_i     // Byte select
+wbs_adr_i     // Address bus
+wbs_dat_i     // Write data
+wbs_dat_o     // Read data
+wbs_ack_o     // Acknowledge
+```
+
+---
+
+## ⏱️ Timing và Performance
+
+### **Clock Cycles**
+- **Key Expansion**: 1-2 clock cycles
+- **Single Round**: 1 clock cycle
+- **AES-128**: ~10 clock cycles
+- **AES-256**: ~14 clock cycles
+
+### **Latency**
+- **Setup Time**: 1 clock cycle
+- **Processing Time**: 10-14 clock cycles
+- **Total Latency**: 11-15 clock cycles
+
+### **Throughput**
+- **AES-128**: 1 block per ~10 clock cycles
+- **AES-256**: 1 block per ~14 clock cycles
+
+---
+
 ## 🔄 Luồng Thực Thi CPU
 
 ### **Quy Trình Thực Hiện Chi Tiết**
@@ -212,142 +297,3 @@ graph TD
 | `wbs_we_i` | Hướng truyền | `1=write, 0=read` |
 | `wbs_stb_i` | Chọn slave | `1=chọn AES` |
 | `wbs_cyc_i` | Giao dịch | `1=active` |
-
----
-
-## 📊 Memory Map
-
-### **Core Information (Read Only)**
-| Địa Chỉ | Tên | Mô Tả |
-|----------|------|--------|
-| `0x00` | `CORE_NAME0` | Tên core (32 bit thấp) |
-| `0x01` | `CORE_NAME1` | Tên core (32 bit cao) |
-| `0x02` | `CORE_VERSION` | Phiên bản |
-
-### **Control Register (0x08) - Write/Read**
-| Bit | Tên | Mô Tả |
-|-----|------|--------|
-| 0 | `INIT` | 1 = Khởi tạo khóa |
-| 1 | `NEXT` | 1 = Bắt đầu xử lý |
-
-### **Status Register (0x09) - Read Only**
-| Bit | Tên | Mô Tả |
-|-----|------|--------|
-| 0 | `READY` | 1 = Core sẵn sàng |
-| 1 | `VALID` | 1 = Kết quả hợp lệ |
-
-### **Configuration Register (0x0A) - Write Only**
-| Bit | Tên | Mô Tả |
-|-----|------|--------|
-| 0 | `ENCDEC` | 0 = Mã hóa, 1 = Giải mã |
-| 1 | `KEYLEN` | 0 = 128-bit, 1 = 256-bit |
-
-### **Key Registers (0x10-0x17) - Write Only**
-| Địa Chỉ | Tên | Mô Tả |
-|----------|------|--------|
-| `0x10-0x13` | `KEY[0:3]` | Khóa 128-bit (4 words) |
-| `0x14-0x17` | `KEY[4:7]` | Khóa 256-bit (4 words thêm) |
-
-### **Data Registers (0x20-0x23) - Write Only**
-| Địa Chỉ | Tên | Mô Tả |
-|----------|------|--------|
-| `0x20-0x23` | `BLOCK[0:3]` | Dữ liệu input (4 words) |
-
-### **Result Registers (0x30-0x33) - Read Only**
-| Địa Chỉ | Tên | Mô Tả |
-|----------|------|--------|
-| `0x30-0x33` | `RESULT[0:3]` | Kết quả output (4 words) |
-
----
-
-## ⏱️ Timing và Performance
-
-### **Clock Cycles**
-- **Key Expansion**: 1-2 clock cycles
-- **Single Round**: 1 clock cycle
-- **AES-128**: ~10 clock cycles
-- **AES-256**: ~14 clock cycles
-
-### **Latency**
-- **Setup Time**: 1 clock cycle
-- **Processing Time**: 10-14 clock cycles
-- **Total Latency**: 11-15 clock cycles
-
-### **Throughput**
-- **AES-128**: 1 block per ~10 clock cycles
-- **AES-256**: 1 block per ~14 clock cycles
-
----
-
-## 🔧 Wishbone Bus Interface
-
-### **Signals**
-```verilog
-// Clock và Reset
-wb_clk_i      // Wishbone clock
-wb_rst_i      // Wishbone reset (active low)
-
-// Bus Interface
-wbs_stb_i     // Strobe signal
-wbs_cyc_i     // Cycle signal
-wbs_we_i      // Write enable
-wbs_sel_i     // Byte select
-wbs_adr_i     // Address bus
-wbs_dat_i     // Write data
-wbs_dat_o     // Read data
-wbs_ack_o     // Acknowledge
-```
-
-### **Protocol**
-```verilog
-// Write Transaction
-if (wbs_cyc_i && wbs_stb_i && wbs_we_i) begin
-    // Process write
-    case (wbs_adr_i)
-        8'h08: control_reg <= wbs_dat_i;
-        8'h0A: config_reg <= wbs_dat_i;
-        8'h10: key_reg[0] <= wbs_dat_i;
-        // ... more cases
-    endcase
-    wbs_ack_o <= 1'b1;
-end
-
-// Read Transaction
-if (wbs_cyc_i && wbs_stb_i && !wbs_we_i) begin
-    // Process read
-    case (wbs_adr_i)
-        8'h00: wbs_dat_o <= CORE_NAME0;
-        8'h09: wbs_dat_o <= status_reg;
-        8'h30: wbs_dat_o <= result_reg[0];
-        // ... more cases
-    endcase
-    wbs_ack_o <= 1'b1;
-end
-```
-
----
-
-## 🎯 Kết Luận
-
-### **Ưu điểm thiết kế:**
-- ✅ **Modular Architecture**: Kiến trúc module rõ ràng, dễ maintain
-- ✅ **Standard Compliance**: Tuân thủ chuẩn NIST FIPS 197
-- ✅ **Efficient Interface**: Wishbone bus interface chuẩn
-- ✅ **Flexible Configuration**: Hỗ trợ cả AES-128 và AES-256
-
-### **Ứng dụng:**
-- **Embedded Systems**: Tích hợp vào SoC/FPGA
-- **Security Applications**: Bảo mật dữ liệu real-time
-- **IoT Devices**: Thiết bị IoT cần mã hóa
-- **Caravel Platform**: Tích hợp vào Caravel SoC
-
-### **Lưu ý implementation:**
-- Tất cả logic đều synchronous với clock
-- Reset logic asynchronous để đảm bảo stability
-- Memory map được thiết kế theo chuẩn industry
-- Debug capabilities cho development và testing
-
----
-
-*📝 Tài liệu được cập nhật lần cuối: Tháng 12/2024*
-*🔧 Dự án: AES Accelerator trên Caravel Platform*
