@@ -81,35 +81,19 @@
 
 ---
 
-## 🔗 Liên Kết Tài Liệu
+## 🚀 Tiếp Theo
 
-### **📚 Tài Liệu Lý Thuyết**
-- **[01_theory.md](01_theory.md)** - Lý thuyết AES và Caravel Platform
-- **[06_references.md](06_references.md)** - Tài liệu tham khảo và nguồn
+### **📖 Bước Tiếp Theo: Tài Liệu Tham Khảo**
+Sau khi đã hiểu hướng phát triển tương lai, bạn có thể tham khảo:
 
-### **🏗️ Thiết Kế RTL**
-- **[02_rtl_design.md](02_rtl_design.md)** - Kiến trúc RTL và luồng thực thi CPU
-- **[rtl_aes.md](rtl_aes.md)** - Module chính AES (top-level)
-- **[rtl_aes_core.md](rtl_aes_core.md)** - Module điều khiển trung tâm
-- **[rtl_aes_key_mem.md](rtl_aes_key_mem.md)** - Module quản lý khóa
-- **[rtl_aes_encipher_block.md](rtl_aes_encipher_block.md)** - Module mã hóa
-- **[rtl_aes_decipher_block.md](rtl_aes_decipher_block.md)** - Module giải mã
+**[📚 06_references.md](06_references.md)** - Tài liệu tham khảo và nguồn
 
-### **🧪 Testbench và Verification**
-- **[03_rtl_testbench.md](03_rtl_testbench.md)** - Tổng quan testbench và kết quả
-- **[tb_aes.md](tb_aes.md)** - Testbench module chính AES
-- **[tb_aes_core.md](tb_aes_core.md)** - Testbench module điều khiển
-- **[tb_aes_key_mem.md](tb_aes_key_mem.md)** - Testbench module khóa
-- **[tb_aes_encipher_block.md](tb_aes_encipher_block.md)** - Testbench module mã hóa
-- **[tb_aes_decipher_block.md](tb_aes_decipher_block.md)** - Testbench module giải mã
+**Nội dung chính:**
+- NIST FIPS 197 AES Standard
+- Caravel Platform documentation
+- Wishbone Bus specification
+- OpenLane và OpenROAD tools
+- Academic papers và community resources
 
-### **🔧 Hướng Dẫn Thực Hành**
-- **[cpu_flow.md](cpu_flow.md)** - Luồng thực thi CPU khi giao tiếp với AES core
-- **[04_openlane2_flow.md](04_openlane2_flow.md)** - Quy trình OpenLane2 cho ASIC
-- **[05_future_devs.md](05_future_devs.md)** ← Bạn đang ở đây
-
----
-
-*📝 Tài liệu được cập nhật lần cuối: Tháng 12/2024*
-*🔧 Dự án: AES Accelerator trên Caravel Platform*
-
+### **🏠 Về Trang Chủ**
+**[📚 docs/README.md](../README.md)** - Trang chủ với tất cả tài liệu
