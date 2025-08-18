@@ -1,322 +1,268 @@
-# Step 2 - RTL Design
+# Step 2 - RTL Design - Thiết Kế RTL
 
-## Tổng Quan về Kiến Trúc RTL
+## 📋 Tổng Quan
 
-Dự án AES Accelerator được thiết kế theo kiến trúc module hóa, với mỗi module thực hiện một chức năng cụ thể. Kiến trúc tổng thể được chia thành các lớp từ cao xuống thấp, từ giao diện Wishbone đến các module xử lý AES cơ bản.
+Tài liệu này mô tả kiến trúc RTL của AES Accelerator, bao gồm các module chính và luồng thực thi CPU cần thiết để giao tiếp với AES core.
 
-## 1. Cấu Trúc Tổng Thể
+---
 
-### 1.1 Sơ Đồ Kiến Trúc
+## 🏗️ Kiến Trúc Tổng Thể
 
+### **Module Hierarchy**
 ```
-┌─────────────────────────────────────────────────────────┐
-│                aes_wb_wrapper.v                         │
-│              (Wishbone Interface)                       │
-└─────────────────────┬───────────────────────────────────┘
-                      │
-┌─────────────────────▼───────────────────────────────────┐
-│                    aes.v                                │
-│              (Top Level Wrapper)                        │
-└─────────────────────┬───────────────────────────────────┘
-                      │
-┌─────────────────────▼───────────────────────────────────┐
-│                  aes_core.v                             │
-│              (Main Control Logic)                       │
-└─────────┬───────────┬───────────┬───────────────────────┘
-          │           │           │
-┌─────────▼─────────┐ │  ┌────────▼─────────┐
-│aes_encipher_block │ │  │aes_decipher_block│
-│     .v            │ │  │       .v         │
-│  (Encryption)     │ │  │   (Decryption)   │
-└───────────────────┘ │  └──────────────────┘
-                      │
-┌─────────────────────▼───────────────────────────────────┐
-│              aes_key_mem.v                              │
-│              (Key Management)                           │
-└─────────────────────────────────────────────────────────┘
-          │                      |
-┌─────────▼─────────┐  ┌─────────▼─────────┐
-│    aes_sbox.v     │  │  aes_inv_sbox.v   │
-│   (S-box ROM)     │  │  (Inverse S-box)  │
-└───────────────────┘  └───────────────────┘
+aes.v (Top-Level)
+├── aes_core.v (Control Logic)
+├── aes_key_mem.v (Key Management)
+├── aes_encipher_block.v (Encryption)
+├── aes_decipher_block.v (Decryption)
+├── aes_sbox.v (S-box Lookup)
+└── aes_inv_sbox.v (Inverse S-box)
 ```
 
-### 1.2 Phân Cấp Module
+### **Data Flow**
+```mermaid
+graph TD
+    A[CPU] --> B[Wishbone Bus]
+    B --> C[aes.v]
+    C --> D[aes_core.v]
+    D --> E[aes_key_mem.v]
+    D --> F[aes_encipher_block.v]
+    D --> G[aes_decipher_block.v]
+    E --> H[Round Keys]
+    F --> I[Encrypted Data]
+    G --> J[Decrypted Data]
+    I --> K[Result]
+    J --> K
+    K --> L[CPU]
+```
 
-- **Lớp 1**: Giao diện Wishbone (`aes_wb_wrapper.v`)
-- **Lớp 2**: Wrapper chính (`aes.v`)
-- **Lớp 3**: Lõi điều khiển (`aes_core.v`)
-- **Lớp 4**: Module xử lý (`aes_encipher_block.v`, `aes_decipher_block.v`)
-- **Lớp 5**: Module hỗ trợ (`aes_sbox.v`, `aes_inv_sbox.v`, `aes_key_mem.v`)
+---
 
-## 2. Phân Tích Chi Tiết Các Module
+## 🔧 Các Module Chính
 
-### 2.1 aes_wb_wrapper.v - Giao Diện Wishbone
+### **1. aes.v - Module Chính**
+- **Chức năng**: Top-level module, Wishbone bus interface
+- **Ports**: Clock, reset, Wishbone bus signals
+- **Memory Map**: Control registers, key registers, data registers
+- **Interface**: CPU communication thông qua Wishbone bus
 
-#### 2.1.1 Chức Năng
-Module này cung cấp giao diện Wishbone slave để tích hợp AES core với hệ thống Caravel.
+### **2. aes_core.v - Điều Khiển Trung Tâm**
+- **Chức năng**: State machine, round control, module coordination
+- **States**: IDLE, INIT, NEXT, ERROR
+- **Control**: Key expansion, encryption/decryption flow
+- **Timing**: Round counter, max rounds (10 cho AES-128, 14 cho AES-256)
 
-#### 2.1.2 Port Interface
+### **3. aes_key_mem.v - Quản Lý Khóa**
+- **Chức năng**: Key storage, key expansion, round key generation
+- **Algorithm**: AES key expansion theo NIST FIPS 197
+- **Support**: AES-128 (11 round keys), AES-256 (15 round keys)
+- **Features**: S-box integration, Rcon constants
+
+### **4. aes_encipher_block.v - Mã Hóa**
+- **Transformations**: SubBytes, ShiftRows, MixColumns, AddRoundKey
+- **Galois Field**: gm2, gm3 functions cho MixColumns
+- **State Array**: 4x4 byte array management
+- **Timing**: 1 round per clock cycle
+
+### **5. aes_decipher_block.v - Giải Mã**
+- **Inverse Transformations**: InvSubBytes, InvShiftRows, InvMixColumns, AddRoundKey
+- **Inverse Galois Field**: gm9, gm11, gm13, gm14 functions
+- **Round Order**: Reverse order so với encryption
+- **Verification**: Round-trip testing (encrypt -> decrypt -> original)
+
+---
+
+## 🔄 Luồng Thực Thi CPU
+
+### **Bước 1: Khởi Tạo Khóa**
 ```verilog
-module aes_wb_wrapper (
-    // Wishbone Slave ports (WB MI A)
-    input wb_clk_i,           // Clock signal
-    input wb_rst_i,           // Reset signal
-    input wbs_stb_i,          // Strobe signal
-    input wbs_cyc_i,          // Cycle signal
-    input wbs_we_i,           // Write enable
-    input [3:0] wbs_sel_i,    // Byte select
-    input [31:0] wbs_dat_i,   // Write data
-    input [31:0] wbs_adr_i,   // Address
-    output wbs_ack_o,         // Acknowledge
-    output [31:0] wbs_dat_o   // Read data
-);
+// 1. Ghi khóa vào key registers
+CPU_Write(0x10, key[31:0]);    // Key word 0
+CPU_Write(0x11, key[63:32]);   // Key word 1
+CPU_Write(0x12, key[95:64]);   // Key word 2
+CPU_Write(0x13, key[127:96]);  // Key word 3
+// Cho AES-256: thêm 4 words nữa
+
+// 2. Cấu hình key length
+CPU_Write(0x0A, 0x00);         // 0=AES-128, 1=AES-256
+
+// 3. Kích hoạt key expansion
+CPU_Write(0x08, 0x01);         // Set INIT bit
 ```
 
-#### 2.1.3 Logic Điều Khiển
+### **Bước 2: Cấu Hình Mode**
 ```verilog
-assign valid = wbs_cyc_i && wbs_stb_i;
-assign write_enable = wbs_we_i && valid;
-assign read_enable = ~wbs_we_i && valid;
+// Chọn encryption hoặc decryption
+CPU_Write(0x0A, 0x00);         // 0=Encrypt, 1=Decrypt
 ```
 
-**Phân tích:**
-- Sử dụng logic combinational để tạo tín hiệu điều khiển
-- `valid` chỉ ra giao dịch Wishbone hợp lệ
-- `write_enable` và `read_enable` được tạo từ `valid` và `wbs_we_i`
-
-#### 2.1.4 Kết Nối với AES Core
+### **Bước 3: Ghi Dữ Liệu Input**
 ```verilog
-aes aes(
-    .clk(wb_clk_i),
-    .reset_n(!wb_rst_i),
-    .cs(wbs_cyc_i && wbs_stb_i),
-    .we(write_enable),
-    .address(wbs_adr_i[9:2]),    // 8-bit address
-    .write_data(wbs_dat_i),
-    .read_data(wbs_dat_o)
-);
+// Ghi plaintext/ciphertext vào data registers
+CPU_Write(0x20, data[31:0]);   // Data word 0
+CPU_Write(0x21, data[63:32]);  // Data word 1
+CPU_Write(0x22, data[95:64]);  // Data word 2
+CPU_Write(0x23, data[127:96]); // Data word 3
 ```
 
-**Phân tích:**
-- Địa chỉ được dịch phải 2 bit (chia 4) để chuyển từ byte address sang word address
-- Reset được đảo ngược để phù hợp với logic tích cực thấp của AES core
-
-### 2.2 aes.v - Top Level Wrapper
-
-#### 2.2.1 Memory Map
+### **Bước 4: Bắt Đầu Xử Lý**
 ```verilog
-localparam ADDR_NAME0       = 8'h00;    // Core name (lower 32 bits)
-localparam ADDR_NAME1       = 8'h01;    // Core name (upper 32 bits)
-localparam ADDR_VERSION     = 8'h02;    // Version information
-localparam ADDR_CTRL        = 8'h08;    // Control register
-localparam ADDR_STATUS      = 8'h09;    // Status register
-localparam ADDR_CONFIG      = 8'h0a;    // Configuration register
-localparam ADDR_KEY0        = 8'h10;    // Key storage start
-localparam ADDR_KEY7        = 8'h17;    // Key storage end
-localparam ADDR_BLOCK0      = 8'h20;    // Input block start
-localparam ADDR_BLOCK3      = 8'h23;    // Input block end
-localparam ADDR_RESULT0     = 8'h30;    // Output block start
-localparam ADDR_RESULT3     = 8'h33;    // Output block end
+// Kích hoạt xử lý
+CPU_Write(0x08, 0x02);         // Set NEXT bit
 ```
 
-#### 2.2.2 Control Register
+### **Bước 5: Chờ Hoàn Thành**
 ```verilog
-localparam CTRL_INIT_BIT    = 0;    // Initialize operation
-localparam CTRL_NEXT_BIT    = 1;    // Start next operation
+// Poll status register
+do {
+    status = CPU_Read(0x09);
+} while (!(status & 0x02));     // Wait for VALID bit
 ```
 
-#### 2.2.3 Status Register
+### **Bước 6: Đọc Kết Quả**
 ```verilog
-localparam STATUS_READY_BIT = 0;    // Core ready
-localparam STATUS_VALID_BIT = 1;    // Result valid
+// Đọc kết quả từ result registers
+result[31:0] = CPU_Read(0x30);   // Result word 0
+result[63:32] = CPU_Read(0x31);  // Result word 1
+result[95:64] = CPU_Read(0x32);  // Result word 2
+result[127:96] = CPU_Read(0x33); // Result word 3
 ```
 
-#### 2.2.4 Configuration Register
+---
+
+## 📊 Memory Map
+
+### **Core Information (Read Only)**
+| Địa Chỉ | Tên | Mô Tả |
+|----------|------|--------|
+| `0x00` | `CORE_NAME0` | Tên core (32 bit thấp) |
+| `0x01` | `CORE_NAME1` | Tên core (32 bit cao) |
+| `0x02` | `CORE_VERSION` | Phiên bản |
+
+### **Control Register (0x08) - Write/Read**
+| Bit | Tên | Mô Tả |
+|-----|------|--------|
+| 0 | `INIT` | 1 = Khởi tạo khóa |
+| 1 | `NEXT` | 1 = Bắt đầu xử lý |
+
+### **Status Register (0x09) - Read Only**
+| Bit | Tên | Mô Tả |
+|-----|------|--------|
+| 0 | `READY` | 1 = Core sẵn sàng |
+| 1 | `VALID` | 1 = Kết quả hợp lệ |
+
+### **Configuration Register (0x0A) - Write Only**
+| Bit | Tên | Mô Tả |
+|-----|------|--------|
+| 0 | `ENCDEC` | 0 = Mã hóa, 1 = Giải mã |
+| 1 | `KEYLEN` | 0 = 128-bit, 1 = 256-bit |
+
+### **Key Registers (0x10-0x17) - Write Only**
+| Địa Chỉ | Tên | Mô Tả |
+|----------|------|--------|
+| `0x10-0x13` | `KEY[0:3]` | Khóa 128-bit (4 words) |
+| `0x14-0x17` | `KEY[4:7]` | Khóa 256-bit (4 words thêm) |
+
+### **Data Registers (0x20-0x23) - Write Only**
+| Địa Chỉ | Tên | Mô Tả |
+|----------|------|--------|
+| `0x20-0x23` | `BLOCK[0:3]` | Dữ liệu input (4 words) |
+
+### **Result Registers (0x30-0x33) - Read Only**
+| Địa Chỉ | Tên | Mô Tả |
+|----------|------|--------|
+| `0x30-0x33` | `RESULT[0:3]` | Kết quả output (4 words) |
+
+---
+
+## ⏱️ Timing và Performance
+
+### **Clock Cycles**
+- **Key Expansion**: 1-2 clock cycles
+- **Single Round**: 1 clock cycle
+- **AES-128**: ~10 clock cycles
+- **AES-256**: ~14 clock cycles
+
+### **Latency**
+- **Setup Time**: 1 clock cycle
+- **Processing Time**: 10-14 clock cycles
+- **Total Latency**: 11-15 clock cycles
+
+### **Throughput**
+- **AES-128**: 1 block per ~10 clock cycles
+- **AES-256**: 1 block per ~14 clock cycles
+
+---
+
+## 🔧 Wishbone Bus Interface
+
+### **Signals**
 ```verilog
-localparam CTRL_ENCDEC_BIT  = 0;    // 0=encrypt, 1=decrypt
-localparam CTRL_KEYLEN_BIT  = 1;    // 0=128-bit, 1=256-bit
+// Clock và Reset
+wb_clk_i      // Wishbone clock
+wb_rst_i      // Wishbone reset (active low)
+
+// Bus Interface
+wbs_stb_i     // Strobe signal
+wbs_cyc_i     // Cycle signal
+wbs_we_i      // Write enable
+wbs_sel_i     // Byte select
+wbs_adr_i     // Address bus
+wbs_dat_i     // Write data
+wbs_dat_o     // Read data
+wbs_ack_o     // Acknowledge
 ```
 
-### 2.3 aes_core.v - Lõi Điều Khiển Chính
-
-#### 2.3.1 State Machine
+### **Protocol**
 ```verilog
-localparam CTRL_IDLE  = 2'h0;    // Idle state
-localparam CTRL_INIT  = 2'h1;    // Initialization state
-localparam CTRL_NEXT  = 2'h2;    // Processing state
-```
+// Write Transaction
+if (wbs_cyc_i && wbs_stb_i && wbs_we_i) begin
+    // Process write
+    case (wbs_adr_i)
+        8'h08: control_reg <= wbs_dat_i;
+        8'h0A: config_reg <= wbs_dat_i;
+        8'h10: key_reg[0] <= wbs_dat_i;
+        // ... more cases
+    endcase
+    wbs_ack_o <= 1'b1;
+end
 
-#### 2.3.2 Port Interface
-```verilog
-module aes_core(
-    input wire            clk,
-    input wire            reset_n,
-    input wire            encdec,         // 0=encrypt, 1=decrypt
-    input wire            init,           // Initialize
-    input wire            next,           // Start next operation
-    output wire           ready,          // Core ready
-    input wire [255:0]   key,            // Input key
-    input wire            keylen,         // Key length
-    input wire [127:0]   block,          // Input block
-    output wire [127:0]  result,         // Output block
-    output wire           result_valid    // Result valid
-);
-```
-
-#### 2.3.3 Logic Điều Khiển
-```verilog
-always @(posedge clk or negedge reset_n) begin
-    if (!reset_n) begin
-        aes_core_ctrl_reg <= CTRL_IDLE;
-        result_valid_reg <= 1'b0;
-        ready_reg <= 1'b1;
-    end else begin
-        if (aes_core_ctrl_we)
-            aes_core_ctrl_reg <= aes_core_ctrl_new;
-        if (result_valid_we)
-            result_valid_reg <= result_valid_new;
-        if (ready_we)
-            ready_reg <= ready_new;
-    end
+// Read Transaction
+if (wbs_cyc_i && wbs_stb_i && !wbs_we_i) begin
+    // Process read
+    case (wbs_adr_i)
+        8'h00: wbs_dat_o <= CORE_NAME0;
+        8'h09: wbs_dat_o <= status_reg;
+        8'h30: wbs_dat_o <= result_reg[0];
+        // ... more cases
+    endcase
+    wbs_ack_o <= 1'b1;
 end
 ```
 
-**Phân tích:**
-- Sử dụng flip-flop với write enable để cập nhật có điều kiện
-- Reset tích cực thấp với logic đồng bộ
-- State machine được điều khiển bởi các tín hiệu `init` và `next`
+---
 
-### 2.4 aes_encipher_block.v - Module Mã Hóa
+## 🎯 Kết Luận
 
-#### 2.4.1 Các Trạng Thái Xử Lý
-```verilog
-localparam NO_UPDATE    = 3'h0;    // No update
-localparam INIT_UPDATE  = 3'h1;    // Initial round
-localparam SBOX_UPDATE  = 3'h2;    // S-box substitution
-localparam MAIN_UPDATE  = 3'h3;    // Main round
-localparam FINAL_UPDATE = 3'h4;    // Final round
-```
+### **Ưu điểm thiết kế:**
+- ✅ **Modular Architecture**: Kiến trúc module rõ ràng, dễ maintain
+- ✅ **Standard Compliance**: Tuân thủ chuẩn NIST FIPS 197
+- ✅ **Efficient Interface**: Wishbone bus interface chuẩn
+- ✅ **Flexible Configuration**: Hỗ trợ cả AES-128 và AES-256
 
-#### 2.4.2 Hàm Galois Field
-```verilog
-function automatic [7:0] gm2(input [7:0] op);
-    begin
-        gm2 = {op[6:0], 1'b0} ^ (8'h1b & {8{op[7]}});
-    end
-endfunction
+### **Ứng dụng:**
+- **Embedded Systems**: Tích hợp vào SoC/FPGA
+- **Security Applications**: Bảo mật dữ liệu real-time
+- **IoT Devices**: Thiết bị IoT cần mã hóa
+- **Caravel Platform**: Tích hợp vào Caravel SoC
 
-function automatic [7:0] gm3(input [7:0] op);
-    begin
-        gm3 = gm2(op) ^ op;
-    end
-endfunction
-```
+### **Lưu ý implementation:**
+- Tất cả logic đều synchronous với clock
+- Reset logic asynchronous để đảm bảo stability
+- Memory map được thiết kế theo chuẩn industry
+- Debug capabilities cho development và testing
 
-**Phân tích:**
-- `gm2`: Thực hiện phép nhân với 2 trong trường GF(2⁸)
-- `gm3`: Thực hiện phép nhân với 3 trong trường GF(2⁸)
-- Sử dụng `automatic` để tối ưu hóa synthesis
+---
 
-#### 2.4.3 MixColumns Function
-```verilog
-function automatic [31:0] mixw(input [31:0] w);
-    reg [7:0] b0, b1, b2, b3;
-    reg [7:0] mb0, mb1, mb2, mb3;
-    
-    b0 = w[31:24];
-    b1 = w[23:16];
-    b2 = w[15:8];
-    b3 = w[7:0];
-    
-    mb0 = gm2(b0) ^ gm3(b1) ^ b2 ^ b3;
-    mb1 = b0 ^ gm2(b1) ^ gm3(b2) ^ b3;
-    mb2 = b0 ^ b1 ^ gm2(b2) ^ gm3(b3);
-    mb3 = gm3(b0) ^ b1 ^ b2 ^ gm2(b3);
-    
-    mixw = {mb0, mb1, mb2, mb3};
-endfunction
-```
-
-**Phân tích:**
-- Thực hiện phép biến đổi MixColumns cho một word 32-bit
-- Sử dụng các hàm `gm2` và `gm3` đã định nghĩa
-- Kết quả được ghép lại thành word 32-bit
-
-### 2.5 aes_sbox.v - S-box ROM
-
-#### 2.5.1 Cấu Trúc ROM
-```verilog
-wire [7:0] sbox [0:255];    // 256x8 ROM
-
-assign new_sboxw[31:24] = sbox[sboxw[31:24]];
-assign new_sboxw[23:16] = sbox[sboxw[23:16]];
-assign new_sboxw[15:8]  = sbox[sboxw[15:8]];
-assign new_sboxw[7:0]   = sbox[sboxw[7:0]];
-```
-
-**Phân tích:**
-- Sử dụng array 2D để tạo ROM 256x8
-- 4 S-box song song để xử lý word 32-bit
-- Mỗi byte được thay thế độc lập
-
-#### 2.5.2 Nội Dung S-box
-```verilog
-assign sbox[8'h00] = 8'h63;
-assign sbox[8'h01] = 8'h7c;
-assign sbox[8'h02] = 8'h77;
-// ... (256 entries)
-```
-
-**Phân tích:**
-- S-box được định nghĩa bằng các assignment combinational
-- Mỗi giá trị đầu vào 8-bit có một giá trị đầu ra 8-bit tương ứng
-- Được tối ưu hóa cho synthesis thành ROM
-
-### 2.6 aes_key_mem.v - Quản Lý Khóa
-
-#### 2.6.1 Cấu Trúc Bộ Nhớ Khóa
-```verilog
-reg [31:0] key_mem [0:7];    // 8 words x 32-bit
-reg [31:0] key_mem_new [0:7];
-reg [7:0]  key_mem_we;
-```
-
-#### 2.6.2 Key Expansion
-```verilog
-function automatic [31:0] next_key;
-    input [31:0] prev_key;
-    input [31:0] round_key;
-    input [7:0]  rcon;
-    
-    reg [31:0] rot_word;
-    reg [31:0] sub_word;
-    
-    rot_word = {prev_key[23:0], prev_key[31:24]};
-    sub_word = {sbox[rot_word[31:24]], sbox[rot_word[23:16]], 
-                sbox[rot_word[15:8]], sbox[rot_word[7:0]]};
-    next_key = sub_word ^ round_key ^ {rcon, 24'h000000};
-endfunction
-```
-
-**Phân tích:**
-- Sử dụng `function automatic` để tối ưu hóa
-- Thực hiện RotWord, SubWord và XOR với Rcon
-- Tạo khóa con cho từng vòng AES
-
-## 3. Đặc Điểm Thiết Kế
-
-### 3.1 Kiến Trúc Pipeline
-- **Sequential Processing**: Xử lý tuần tự từng khối dữ liệu
-- **State Machine**: Điều khiển trạng thái xử lý
-- **Resource Sharing**: Chia sẻ tài nguyên giữa mã hóa và giải mã
-
-### 3.2 Tối Ưu Hóa Synthesis
-- **Combinational Logic**: Sử dụng cho các phép biến đổi đơn giản
-- **Sequential Logic**: Sử dụng cho state machine và bộ nhớ
-- **Function Optimization**: Sử dụng `automatic` functions
-
-### 3.3 Giao Diện Chuẩn
-- **Wishbone Bus**: Giao diện bus chuẩn cho SoC
-- **Memory Mapped**: Truy cập qua địa chỉ bộ nhớ
-- **Register Interface**: Giao diện thanh ghi điều khiển
+*📝 Tài liệu được cập nhật lần cuối: Tháng 12/2024*
+*🔧 Dự án: AES Accelerator trên Caravel Platform*
