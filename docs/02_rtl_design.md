@@ -302,7 +302,7 @@ graph TD
 
 ---
 
-### **Giai thich chi tiet tung module**
+### **Giải Thích Chi Tiết Từng Module**
 
 * [aes.v](docs/rtl_aes.md)
 * [aes_core.v](docs/rtl_aes_core.md)

@@ -153,7 +153,7 @@ Testbench Files
 
 ---
 
-### **Giai thich chi tiet tung file testbench**
+### **Giải Thích Chi Tiết Từng File Testbench**
 
 * [tb_aes.v](docs/tb_aes.md)
 * [tb_aes_core.v](docs/tb_aes_core.md)
