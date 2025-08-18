@@ -263,11 +263,9 @@ Dự án AES Accelerator trên Caravel không chỉ cung cấp một giải phá
 
 ---
 
-## 🚀 Tiếp Theo
+### 🚀 Tiếp Theo
 
-### Kiến trúc RTL và luồng thực thi CPU
+**[🏗️ 02_rtl_design.md](02_rtl_design.md)** - Kiến trúc RTL và luồng thực thi CPU
 
-**[🏗️ 02_rtl_design.md](02_rtl_design.md)**
-
-**🏠 Về Trang Chủ**
+### 🏠 Về Trang Chủ**
 **[📚 docs/README.md](../README.md)**
