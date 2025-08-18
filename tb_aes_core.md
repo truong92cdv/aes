@@ -532,9 +532,3 @@ Reset Test 2: Normal operation restored ✓ PASS
 | **AES-256 Decryption Flow** | 1 | 1 | 0 | 100% |
 | **Reset Functionality** | 2 | 2 | 0 | 100% |
 | **Total** | **8** | **8** | **0** | **100%** |
-
----
-
-*📝 Tài liệu được cập nhật lần cuối: Tháng 12/2024*
-*🔧 Dự án: AES Accelerator trên Caravel Platform*
-*🧪 Testbench: tb_aes_core.v*

@@ -546,9 +546,3 @@ Expected gm3: f9
 | **AddRoundKey Transformation** | 1 | 1 | 0 | 100% |
 | **Complete Round Processing** | 1 | 1 | 0 | 100% |
 | **Total** | **7** | **7** | **0** | **100%** |
-
----
-
-*📝 Tài liệu được cập nhật lần cuối: Tháng 12/2024*
-*🔧 Dự án: AES Accelerator trên Caravel Platform*
-*🧪 Testbench: tb_aes_encipher_block.v*

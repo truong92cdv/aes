@@ -284,5 +284,3 @@ graph TD
 - **Setup Time**: 1 clock cycle (key loading)
 - **Processing Time**: 10-14 clock cycles (encryption/decryption)
 - **Total Latency**: 11-15 clock cycles
-
----

@@ -575,9 +575,3 @@ Decrypted result: 6bc1bee22e409f96e93d7e117393172a
 | **Complete Decryption Round** | 1 | 1 | 0 | 100% |
 | **Round-trip Testing** | 1 | 1 | 0 | 100% |
 | **Total** | **9** | **9** | **0** | **100%** |
-
----
-
-*📝 Tài liệu được cập nhật lần cuối: Tháng 12/2024*
-*🔧 Dự án: AES Accelerator trên Caravel Platform*
-*🧪 Testbench: tb_aes_decipher_block.v*

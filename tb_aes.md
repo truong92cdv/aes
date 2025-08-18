@@ -496,9 +496,3 @@ Got: 6bc1bee22e409f96e93d7e117393172a
 | **AES-256 Encryption** | 1 | 1 | 0 | 100% |
 | **AES-256 Decryption** | 1 | 1 | 0 | 100% |
 | **Total** | **4** | **4** | **0** | **100%** |
-
----
-
-*📝 Tài liệu được cập nhật lần cuối: Tháng 12/2024*
-*🔧 Dự án: AES Accelerator trên Caravel Platform*
-*🧪 Testbench: tb_aes.v*

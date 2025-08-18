@@ -353,5 +353,3 @@ end
 - **Flip-flops**: ~50-100 (depending on implementation)
 - **Combinational Logic**: ~200-400 LUTs
 - **Memory**: 0 (uses external key memory)
-
----

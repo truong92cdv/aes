@@ -456,5 +456,3 @@ end
 - **Flip-flops**: ~150-200 (state arrays + control)
 - **Combinational Logic**: ~400-600 LUTs (more complex than encryption)
 - **Memory**: 0 (uses registers)
-
----

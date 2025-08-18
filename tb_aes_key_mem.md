@@ -421,7 +421,3 @@ Reset Test 2: Normal operation restored ✓ PASS
 | **Edge Cases** | 3 | 3 | 0 | 100% |
 | **Reset Functionality** | 2 | 2 | 0 | 100% |
 | **Total** | **31** | **31** | **0** | **100%** |
-
-*📝 Tài liệu được cập nhật lần cuối: Tháng 12/2024*
-*🔧 Dự án: AES Accelerator trên Caravel Platform*
-*🧪 Testbench: tb_aes_key_mem.v*
