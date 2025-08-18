@@ -331,3 +331,7 @@ graph TD
 - **Flip-flops**: ~200-300 (key storage + round keys)
 - **Combinational Logic**: ~100-200 LUTs
 - **Memory**: ~2-3 Kb (round key storage)
+
+---
+
+**[🏗️ Step 2 - RTL design](02_rtl_design.md)** - Kiến trúc RTL và luồng thực thi CPU

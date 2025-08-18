@@ -546,3 +546,7 @@ Expected gm3: f9
 | **AddRoundKey Transformation** | 1 | 1 | 0 | 100% |
 | **Complete Round Processing** | 1 | 1 | 0 | 100% |
 | **Total** | **7** | **7** | **0** | **100%** |
+
+---
+
+**[🧪 Step 3 - RTL Testbench](03_rtl_testbench.md)** - Tổng quan testbench và kết quả

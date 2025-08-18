@@ -532,3 +532,7 @@ Reset Test 2: Normal operation restored ✓ PASS
 | **AES-256 Decryption Flow** | 1 | 1 | 0 | 100% |
 | **Reset Functionality** | 2 | 2 | 0 | 100% |
 | **Total** | **8** | **8** | **0** | **100%** |
+
+---
+
+**[🧪 Step 3 - RTL Testbench](03_rtl_testbench.md)** - Tổng quan testbench và kết quả

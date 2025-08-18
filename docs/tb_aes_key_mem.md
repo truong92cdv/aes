@@ -421,3 +421,7 @@ Reset Test 2: Normal operation restored ✓ PASS
 | **Edge Cases** | 3 | 3 | 0 | 100% |
 | **Reset Functionality** | 2 | 2 | 0 | 100% |
 | **Total** | **31** | **31** | **0** | **100%** |
+
+---
+
+**[🧪 Step 3 - RTL Testbench](03_rtl_testbench.md)** - Tổng quan testbench và kết quả

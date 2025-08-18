@@ -353,3 +353,7 @@ end
 - **Flip-flops**: ~50-100 (depending on implementation)
 - **Combinational Logic**: ~200-400 LUTs
 - **Memory**: 0 (uses external key memory)
+
+---
+
+**[🏗️ Step 2 - RTL design](02_rtl_design.md)** - Kiến trúc RTL và luồng thực thi CPU

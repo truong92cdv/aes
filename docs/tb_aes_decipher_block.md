@@ -575,3 +575,7 @@ Decrypted result: 6bc1bee22e409f96e93d7e117393172a
 | **Complete Decryption Round** | 1 | 1 | 0 | 100% |
 | **Round-trip Testing** | 1 | 1 | 0 | 100% |
 | **Total** | **9** | **9** | **0** | **100%** |
+
+---
+
+**[🧪 Step 3 - RTL Testbench](03_rtl_testbench.md)** - Tổng quan testbench và kết quả

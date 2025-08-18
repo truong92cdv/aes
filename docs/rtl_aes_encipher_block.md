@@ -424,3 +424,7 @@ end
 - **Flip-flops**: ~150-200 (state arrays + control)
 - **Combinational Logic**: ~300-500 LUTs
 - **Memory**: 0 (uses registers)
+
+---
+
+**[🏗️ Step 2 - RTL design](02_rtl_design.md)** - Kiến trúc RTL và luồng thực thi CPU
