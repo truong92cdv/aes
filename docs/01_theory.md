@@ -265,16 +265,9 @@ Dự án AES Accelerator trên Caravel không chỉ cung cấp một giải phá
 
 ## 🚀 Tiếp Theo
 
-### **📖 Bước Tiếp Theo: Thiết Kế RTL**
-Sau khi đã hiểu lý thuyết AES và Caravel Platform, bạn có thể tiếp tục với:
+### Kiến trúc RTL và luồng thực thi CPU
 
-**[🏗️ 02_rtl_design.md](02_rtl_design.md)** - Kiến trúc RTL và luồng thực thi CPU
+**[🏗️ 02_rtl_design.md](02_rtl_design.md)**
 
-**Nội dung chính:**
-- Kiến trúc tổng thể của AES Accelerator
-- Module hierarchy và data flow
-- Luồng thực thi CPU khi giao tiếp với AES core
-- Memory map và timing constraints
-
-### **🏠 Về Trang Chủ**
-**[📚 docs/README.md](../README.md)** - Trang chủ với tất cả tài liệu
+**🏠 Về Trang Chủ**
+**[📚 docs/README.md](../README.md)**
