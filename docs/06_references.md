@@ -38,3 +38,37 @@
 - **Caravel Integration**: [User Project Template](https://github.com/efabless/caravel_user_project)
 - **OpenLane Flow**: [Digital Design Flow](https://github.com/The-OpenROAD-Project/OpenLane)
 
+---
+
+## 🔗 Liên Kết Tài Liệu
+
+### **📚 Tài Liệu Lý Thuyết**
+- **[01_theory.md](01_theory.md)** - Lý thuyết AES và Caravel Platform
+- **[06_references.md](06_references.md)** ← Bạn đang ở đây
+
+### **🏗️ Thiết Kế RTL**
+- **[02_rtl_design.md](02_rtl_design.md)** - Kiến trúc RTL và luồng thực thi CPU
+- **[rtl_aes.md](rtl_aes.md)** - Module chính AES (top-level)
+- **[rtl_aes_core.md](rtl_aes_core.md)** - Module điều khiển trung tâm
+- **[rtl_aes_key_mem.md](rtl_aes_key_mem.md)** - Module quản lý khóa
+- **[rtl_aes_encipher_block.md](rtl_aes_encipher_block.md)** - Module mã hóa
+- **[rtl_aes_decipher_block.md](rtl_aes_decipher_block.md)** - Module giải mã
+
+### **🧪 Testbench và Verification**
+- **[03_rtl_testbench.md](03_rtl_testbench.md)** - Tổng quan testbench và kết quả
+- **[tb_aes.md](tb_aes.md)** - Testbench module chính AES
+- **[tb_aes_core.md](tb_aes_core.md)** - Testbench module điều khiển
+- **[tb_aes_key_mem.md](tb_aes_key_mem.md)** - Testbench module khóa
+- **[tb_aes_encipher_block.md](tb_aes_encipher_block.md)** - Testbench module mã hóa
+- **[tb_aes_decipher_block.md](tb_aes_decipher_block.md)** - Testbench module giải mã
+
+### **🔧 Hướng Dẫn Thực Hành**
+- **[cpu_flow.md](cpu_flow.md)** - Luồng thực thi CPU khi giao tiếp với AES core
+- **[04_openlane2_flow.md](04_openlane2_flow.md)** - Quy trình OpenLane2 cho ASIC
+- **[05_future_devs.md](05_future_devs.md)** - Hướng phát triển tương lai
+
+---
+
+*📝 Tài liệu được cập nhật lần cuối: Tháng 12/2024*
+*🔧 Dự án: AES Accelerator trên Caravel Platform*
+
