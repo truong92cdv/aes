@@ -57,9 +57,9 @@ AES là thuật toán mã hóa khối đối xứng:
 - Dữ liệu được chia thành các khối 128 bit (16 byte).
 - Khóa có thể dài 128, 192 hoặc 256 bit.
 - Số vòng lặp (round) phụ thuộc vào độ dài khóa:
- + AES-128 → 10 round
- + AES-192 → 12 round
- + AES-256 → 14 round
+ . AES-128 → 10 round
+ . AES-192 → 12 round
+ . AES-256 → 14 round
 
 Mỗi round là một chuỗi các phép biến đổi toán học, kết hợp dữ liệu và khóa để tạo ra bản mã.
 
