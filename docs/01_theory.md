@@ -51,132 +51,108 @@ Hiện nay, AES xuất hiện ở mọi nơi: từ mạng Wi-Fi, VPN, ngân hàn
 
 ## 2. Nguyên Lý Hoạt Động của AES
 
-### 2.1 Cấu Trúc Tổng Quan
+### 2.1. Cấu trúc tổng quan
 
-AES sử dụng kiến trúc Substitution-Permutation Network (SPN) với các thành phần chính:
+AES là thuật toán mã hóa khối đối xứng:
+- Dữ liệu được chia thành các khối 128 bit (16 byte).
+- Khóa có thể dài 128, 192 hoặc 256 bit.
+- Số vòng lặp (round) phụ thuộc vào độ dài khóa:
+ + AES-128 → 10 round
+ + AES-192 → 12 round
+ + AES-256 → 14 round
 
-```
-    Plaintext (128 bits)
-       ↓
-    AddRoundKey
-       ↓
-   ┌─────────────────┐
-   │  9 Main Rounds  │
-   │  (10, 12, 14)   │
-   └─────────────────┘
-       ↓
-    Final Round
-       ↓
-    Ciphertext (128 bits)
-```
+Mỗi round là một chuỗi các phép biến đổi toán học, kết hợp dữ liệu và khóa để tạo ra bản mã.
 
-### 2.2 Các Thành Phần Cơ Bản
+### 2.2. Các bước chính trong một round AES
 
-#### 2.2.1 State Array
-Dữ liệu được tổ chức thành ma trận 4x4 byte:
-```
-┌──────┬──────┬──────┬──────┐
-│ s0,0 │ s0,1 │ s0,2 │ s0,3 │
-├──────┼──────┼──────┼──────┤
-│ s1,0 │ s1,1 │ s1,2 │ s1,3 │
-├──────┼──────┼──────┼──────┤
-│ s2,0 │ s2,1 │ s2,2 │ s2,3 │
-├──────┼──────┼──────┼──────┤
-│ s3,0 │ s3,1 │ s3,2 │ s3,3 │
-└──────┴──────┴──────┴──────┘
-```
+Mỗi round (trừ round cuối) có 4 bước:
 
-#### 2.2.2 Key Schedule
-Quá trình tạo ra các khóa con (subkeys) cho từng vòng:
-- **Key Expansion**: Tạo 11, 13, hoặc 15 khóa con
-- **Key Derivation**: Sử dụng hằng số vòng và S-box
+- SubBytes (Thay thế byte)
 
-### 2.3 Các Phép Biến Đổi Chính
+ + Mỗi byte của khối dữ liệu đi qua một bảng thay thế gọi là S-box.
+ + Đây là phép biến đổi phi tuyến tính, giúp AES chống lại các tấn công tuyến tính và vi sai.
 
-#### 2.3.1 SubBytes
-Thay thế mỗi byte bằng giá trị tương ứng từ S-box:
-```
-s'i,j = S-box(si,j)
-```
+- ShiftRows (Dịch hàng)
 
-**Ví dụ S-box:**
-```
-Input:  0x53
-Output: 0xED
-```
+Ma trận 4×4 byte được dịch theo hàng:
 
-#### 2.3.2 ShiftRows
-Dịch chuyển các hàng theo quy tắc:
-- Hàng 0: Không dịch
-- Hàng 1: Dịch trái 1 vị trí
-- Hàng 2: Dịch trái 2 vị trí  
-- Hàng 3: Dịch trái 3 vị trí
+Hàng 0 giữ nguyên.
 
-```
-Trước:          Sau:
-┌─┬─┬─┬─┐      ┌─┬─┬─┬─┐
-│a│b│c│d│      │a│b│c│d│
-├─┼─┼─┼─┤      ├─┼─┼─┼─┤
-│e│f│g│h│      │f│g│h│e│
-├─┼─┼─┼─┤   →  ├─┼─┼─┼─┤
-│i│j│k│l│      │k│l│i│j│
-├─┼─┼─┼─┤      ├─┼─┼─┼─┤
-│m│n│o│p│      │p│m│n│o│
-└─┴─┴─┴─┘      └─┴─┴─┴─┘
-```
+Hàng 1 dịch trái 1 byte.
 
-#### 2.3.3 MixColumns
-Nhân ma trận State với ma trận cố định trong trường GF(2⁸):
-```
-┌─┬─┬─┬─┐   ┌────┬────┬────┬────┐   ┌─────┬─────┬─────┬─────┐
-│2│3│1│1│   │s0,0│s0,1│s0,2│s0,3│   │s'0,0│s'0,1│s'0,2│s'0,3│
-├─┼─┼─┼─┤   ├────┼────┼────┼────┤   ├─────┼─────┼─────┼─────┤
-│1│2│3│1│   │s1,0│s1,1│s1,2│s1,3│   │s'1,0│s'1,1│s'1,2│s'1,3│
-├─┼─┼─┼─┤ × ├────┼────┼────┼────┤ = ├─────┼─────┼─────┼─────┤
-│1│1│2│3│   │s2,0│s2,1│s2,2│s2,3│   │s'2,0│s'2,1│s'2,2│s'2,3│
-├─┼─┼─┼─┤   ├────┼────┼────┼────┤   ├─────┼─────┼─────┼─────┤
-│3│1│1│2│   │s3,0│s3,1│s3,2│s3,3│   │s'3,0│s'3,1│s'3,2│s'3,3│
-└─┴─┴─┴─┘   └────┴────┴────┴────┘   └─────┴─────┴─────┴─────┘
-```
+Hàng 2 dịch trái 2 byte.
 
-#### 2.3.4 AddRoundKey
-Thực hiện phép XOR giữa State và khóa con:
-```
-s'i,j = si,j ⊕ ki,j
-```
+Hàng 3 dịch trái 3 byte.
 
-### 2.4 Quá Trình Mã Hóa Chi Tiết
+Bước này giúp dữ liệu "trộn lẫn" tốt hơn.
 
-#### 2.4.1 Khởi Tạo
-```
-State = Plaintext
-State = AddRoundKey(State, Key[0])
-```
+- MixColumns (Trộn cột)
 
-#### 2.4.2 Các Vòng Chính
-```
-for round = 1 to Nr-1:
-    State = SubBytes(State)
-    State = ShiftRows(State)
-    State = MixColumns(State)
-    State = AddRoundKey(State, Key[round])
-```
+Mỗi cột (4 byte) được coi là một vector và nhân với một ma trận cố định trong trường Galois GF(2^8).
 
-#### 2.4.3 Vòng Cuối
-```
-State = SubBytes(State)
-State = ShiftRows(State)
-State = AddRoundKey(State, Key[Nr])
-Ciphertext = State
-```
+Giúp phân tán thông tin trong toàn bộ khối dữ liệu.
 
-### 2.5 Quá Trình Giải Mã
+- AddRoundKey (Cộng khóa vòng)
 
-Giải mã AES sử dụng các phép biến đổi ngược:
-- **InvSubBytes**: S-box ngược
-- **InvShiftRows**: Dịch chuyển phải
-- **InvMixColumns**: Ma trận nghịch đảo
-- **AddRoundKey**: Giữ nguyên (tính chất XOR)
+Khối dữ liệu được XOR với khóa con (round key) sinh ra từ khóa chính.
+
+Đây là bước duy nhất dùng khóa để “gắn” bảo mật vào dữ liệu.
+
+👉 Ở round cuối cùng, bước MixColumns được bỏ qua.
+
+3. Key Expansion (Mở rộng khóa)
+
+Khóa ban đầu (128/192/256 bit) sẽ được mở rộng thành nhiều round key (mỗi round có 1 khóa riêng).
+
+Nguyên tắc:
+
+Chia khóa gốc thành nhiều “từ” (word) 4 byte.
+
+Sinh thêm các từ mới dựa trên từ trước đó, qua các phép biến đổi:
+
+RotWord: xoay vòng 4 byte.
+
+SubWord: thay thế từng byte bằng S-box.
+
+XOR với Rcon: hằng số vòng.
+
+Cứ mỗi 4 từ tạo thành một round key (128 bit).
+
+Ví dụ AES-128:
+
+Khóa gốc 128 bit → 44 từ (4 từ cho mỗi round key).
+
+Tổng cộng tạo ra 11 round key (1 cho AddRoundKey ban đầu + 10 cho 10 round).
+
+4. Quá trình giải mã (Decryption)
+
+AES được thiết kế có tính đối xứng nên giải mã chỉ là thực hiện ngược lại:
+
+Inverse ShiftRows: dịch ngược lại các hàng.
+
+Inverse SubBytes: dùng bảng S-box nghịch đảo.
+
+Inverse MixColumns: nhân với ma trận nghịch đảo.
+
+AddRoundKey: XOR với round key tương ứng (giống như mã hóa).
+
+Thứ tự các bước cũng đảo ngược so với mã hóa.
+
+👉 Đặc biệt: do AES sử dụng XOR trong bước AddRoundKey, nên mã hóa và giải mã cùng dùng chung round key (chỉ khác thứ tự).
+
+5. Tóm tắt trực quan
+
+Đầu vào: Plaintext (128 bit) + Key (128/192/256 bit).
+
+Tiền xử lý: AddRoundKey với khóa ban đầu.
+
+Round 1 → N-1: SubBytes → ShiftRows → MixColumns → AddRoundKey.
+
+Round cuối: SubBytes → ShiftRows → AddRoundKey.
+
+Đầu ra: Ciphertext (128 bit).
+
+👉 Nói nôm na, AES giống như việc bạn lấy một bản nhạc gốc (plaintext), rồi qua 10–14 lần remix (round), mỗi lần lại thêm hiệu ứng, đảo nhạc, trộn âm thanh, và cuối cùng ra một bản nhạc hoàn toàn khác (ciphertext). Muốn nghe lại nhạc gốc, bạn phải biết chính xác công thức và key remix để đảo ngược quá trình.
 
 ## 3. Bảo Mật và Phân Tích
 
