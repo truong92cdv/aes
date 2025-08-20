@@ -2,26 +2,52 @@
 
 **[🏠 Home](../README.md)**
 
-## 1. Tổng Quan về Mã Hóa AES
+## 1. Tổng Quan về Mã Hóa AES (Advanced Encryption Standard)
 
-### 1.1 Giới Thiệu AES (Advanced Encryption Standard)
+### 1.1. Bối cảnh ra đời
 
-AES là một thuật toán mã hóa khối đối xứng được NIST (National Institute of Standards and Technology) chọn làm tiêu chuẩn mã hóa vào năm 2001. AES thay thế DES (Data Encryption Standard) cũ và trở thành thuật toán mã hóa được sử dụng rộng rãi nhất trên thế giới.
+Trước thập niên 1970, việc bảo mật dữ liệu điện tử chưa thực sự được chú trọng. Đến năm 1977, DES (Data Encryption Standard) ra đời như một chuẩn mã hóa đối xứng của Mỹ, được sử dụng rộng rãi trong ngân hàng, tài chính và chính phủ. Tuy nhiên, DES chỉ có khóa 56-bit, khá ngắn so với tốc độ phát triển máy tính. Đến cuối thập niên 1990, DES đã trở nên yếu: các hệ thống chuyên dụng có thể phá DES trong vòng vài giờ.
 
-**Đặc điểm chính:**
-- **Thuật toán đối xứng**: Sử dụng cùng một khóa để mã hóa và giải mã
-- **Mã hóa khối**: Xử lý dữ liệu theo từng khối cố định
-- **Kích thước khối**: 128 bit (16 byte)
-- **Kích thước khóa**: 128, 192, hoặc 256 bit
-- **Số vòng**: 10, 12, hoặc 14 vòng tùy theo kích thước khóa
+Giải pháp tình thế lúc đó là Triple DES (3DES) – tức mã hóa 3 lần bằng DES để tăng độ an toàn. Nhưng 3DES chậm, tốn tài nguyên, và không phải giải pháp lâu dài.
 
-### 1.2 Lịch Sử và Phát Triển
+Vì vậy, năm 1997, NIST (Viện Tiêu chuẩn và Công nghệ Hoa Kỳ) khởi động cuộc thi để tìm kiếm một thuật toán mã hóa mới, thay thế DES. Thuật toán này phải an toàn, hiệu quả, và có khả năng tồn tại lâu dài. Cuộc thi kéo dài 5 năm, thu hút 15 ứng viên từ khắp nơi trên thế giới.
 
-- **1997**: NIST kêu gọi đề xuất thuật toán mã hóa mới
-- **1998**: 15 thuật toán được chọn để đánh giá
-- **1999**: 5 thuật toán vào vòng chung kết
-- **2000**: Rijndael được chọn làm AES
-- **2001**: AES được công bố chính thức
+Sau nhiều vòng kiểm tra, đánh giá và thảo luận công khai, năm 2000, NIST chọn Rijndael – một thuật toán do hai nhà mật mã học người Bỉ Joan Daemen và Vincent Rijmen phát triển – làm chuẩn mới. Từ đó, Rijndael được gọi là AES (Advanced Encryption Standard) và chính thức trở thành chuẩn mã hóa đối xứng toàn cầu từ năm 2001.
+
+### 1.2. Đặc điểm của AES
+
+AES có những đặc điểm khác biệt so với DES/3DES:
+- Độ dài khóa linh hoạt: hỗ trợ 128, 192 và 256 bit (so với DES chỉ có 56 bit).
+- Khối dữ liệu 128 bit (DES chỉ 64 bit).
+- Cấu trúc toán học hiện đại: dùng các phép biến đổi trong đại số hữu hạn (S-box, ShiftRows, MixColumns).
+- Nhanh và hiệu quả: AES được thiết kế để chạy tốt trên cả phần cứng và phần mềm.
+- Tính chuẩn hóa quốc tế: không thuộc sở hữu riêng, được công khai thuật toán và khuyến khích kiểm tra.
+
+AES là chuẩn mã hóa quốc tế đầu tiên được chọn qua một cuộc thi mở, có sự đóng góp và đánh giá của cộng đồng học thuật, thay vì chỉ do chính phủ Mỹ tự chọn. Điều này giúp AES được tin tưởng rộng rãi.
+
+Đã từng có lo ngại rằng AES có “cửa hậu” (backdoor) do một số tổ chức an ninh cài vào. Nhưng đến nay, sau hơn 20 năm nghiên cứu, chưa ai tìm thấy bằng chứng nào như vậy.
+
+Các nhà thiết kế AES, Daemen và Rijmen, đã trở thành những tên tuổi huyền thoại trong giới mật mã học nhờ thành công này.
+
+### 1.3. So sánh AES và DES/3DES
+
+| Tiêu chí         | DES (1977)        | 3DES (1998)       | AES (2001)                    |
+| ---------------- | ----------------- | ----------------- | ----------------------------- |
+| Độ dài khóa      | 56 bit            | 112/168 bit       | 128, 192, 256 bit             |
+| Khối dữ liệu     | 64 bit            | 64 bit            | 128 bit                       |
+| Tốc độ           | Nhanh (thời 1970) | Chậm (3 lần DES)  | Nhanh cả phần cứng & phần mềm |
+| Bảo mật hiện tại | Không an toàn     | Yếu dần           | Vẫn an toàn                   |
+| Ứng dụng         | Ngân hàng, cũ     | Thay thế tạm thời | Chuẩn toàn cầu                |
+
+### 1.4. AES trong thời hiện đại
+
+Sau hơn 20 năm sử dụng, AES vẫn được xem là an toàn nếu dùng với khóa 128 bit trở lên.
+
+AES-128 có thể bị đe dọa trong tương lai khi máy tính lượng tử phát triển, nhưng AES-192 và AES-256 vẫn được dự đoán an toàn trong thời gian dài.
+
+Các thuật toán mới (ví dụ: ChaCha20, Camellia, Twofish) cũng được nghiên cứu và sử dụng trong một số ứng dụng, nhưng chưa thuật toán nào vượt qua AES để trở thành “chuẩn toàn cầu”.
+
+Hiện nay, AES xuất hiện ở mọi nơi: từ mạng Wi-Fi, VPN, ngân hàng trực tuyến, điện thoại thông minh, cho tới blockchain và tiền mã hóa.
 
 ## 2. Nguyên Lý Hoạt Động của AES
 
