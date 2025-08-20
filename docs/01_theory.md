@@ -75,24 +75,20 @@ Mỗi round (trừ round cuối) có 4 bước:
 2. ShiftRows (Dịch hàng)
 
 Ma trận 4×4 byte được dịch theo hàng:
-
-Hàng 0 giữ nguyên.
-
-Hàng 1 dịch trái 1 byte.
-
-Hàng 2 dịch trái 2 byte.
-
-Hàng 3 dịch trái 3 byte.
+    - Hàng 0 giữ nguyên.
+    - Hàng 1 dịch trái 1 byte.
+    - Hàng 2 dịch trái 2 byte.
+    - Hàng 3 dịch trái 3 byte.
 
 Bước này giúp dữ liệu "trộn lẫn" tốt hơn.
 
-- MixColumns (Trộn cột)
+3. MixColumns (Trộn cột)
 
 Mỗi cột (4 byte) được coi là một vector và nhân với một ma trận cố định trong trường Galois GF(2^8).
 
 Giúp phân tán thông tin trong toàn bộ khối dữ liệu.
 
-- AddRoundKey (Cộng khóa vòng)
+4. AddRoundKey (Cộng khóa vòng)
 
 Khối dữ liệu được XOR với khóa con (round key) sinh ra từ khóa chính.
 
@@ -100,41 +96,30 @@ Khối dữ liệu được XOR với khóa con (round key) sinh ra từ khóa c
 
 👉 Ở round cuối cùng, bước MixColumns được bỏ qua.
 
-3. Key Expansion (Mở rộng khóa)
+### 2.3. Key Expansion (Mở rộng khóa)
 
 Khóa ban đầu (128/192/256 bit) sẽ được mở rộng thành nhiều round key (mỗi round có 1 khóa riêng).
 
 Nguyên tắc:
+- Chia khóa gốc thành nhiều “từ” (word) 4 byte.
+- Sinh thêm các từ mới dựa trên từ trước đó, qua các phép biến đổi:
+    - RotWord: xoay vòng 4 byte.
+    - SubWord: thay thế từng byte bằng S-box.
+    - XOR với Rcon: hằng số vòng.
 
-Chia khóa gốc thành nhiều “từ” (word) 4 byte.
-
-Sinh thêm các từ mới dựa trên từ trước đó, qua các phép biến đổi:
-
-RotWord: xoay vòng 4 byte.
-
-SubWord: thay thế từng byte bằng S-box.
-
-XOR với Rcon: hằng số vòng.
-
-Cứ mỗi 4 từ tạo thành một round key (128 bit).
+- Cứ mỗi 4 từ tạo thành một round key (128 bit).
 
 Ví dụ AES-128:
+    - Khóa gốc 128 bit → 44 từ (4 từ cho mỗi round key).
+    - Tổng cộng tạo ra 11 round key (1 cho AddRoundKey ban đầu + 10 cho 10 round).
 
-Khóa gốc 128 bit → 44 từ (4 từ cho mỗi round key).
-
-Tổng cộng tạo ra 11 round key (1 cho AddRoundKey ban đầu + 10 cho 10 round).
-
-4. Quá trình giải mã (Decryption)
+### 2.4. Quá trình giải mã (Decryption)
 
 AES được thiết kế có tính đối xứng nên giải mã chỉ là thực hiện ngược lại:
-
-Inverse ShiftRows: dịch ngược lại các hàng.
-
-Inverse SubBytes: dùng bảng S-box nghịch đảo.
-
-Inverse MixColumns: nhân với ma trận nghịch đảo.
-
-AddRoundKey: XOR với round key tương ứng (giống như mã hóa).
+    - Inverse ShiftRows: dịch ngược lại các hàng.
+    - Inverse SubBytes: dùng bảng S-box nghịch đảo.
+    - Inverse MixColumns: nhân với ma trận nghịch đảo.
+    - AddRoundKey: XOR với round key tương ứng (giống như mã hóa).
 
 Thứ tự các bước cũng đảo ngược so với mã hóa.
 
