@@ -2,6 +2,8 @@
 
 Thiết kế lõi IP mã hóa AES với Caravel Platform
 
+[Slides AES](https://www.canva.com/design/DAGxPfxMKw8/jJ9o1JvW7bEDDSjY-YTZOA/edit)
+
 ## 🎯 Tính Năng Chính
 
 - ✅ **AES-128/256**: Hỗ trợ khóa 128-bit và 256-bit
@@ -18,7 +20,3 @@ Thiết kế lõi IP mã hóa AES với Caravel Platform
 * [Step 4 - Build project, step by step](docs/04_build_project.md) - Hướng dẫn build project
 * [Step 5 - Future devs](docs/05_future_devs.md) - Hướng phát triển tương lai
 * [Step 6 - References](docs/06_references.md) - Tài liệu tham khảo
-
-## Slides
-
-[Slides AES](https://www.canva.com/design/DAGxPfxMKw8/jJ9o1JvW7bEDDSjY-YTZOA/edit)
